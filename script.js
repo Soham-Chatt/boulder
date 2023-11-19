@@ -48,6 +48,8 @@ function loadHalls() {
         .then(response => response.json())
         .then(data => {
             halls.push(...data);
+            const searchInput = document.getElementById('searchInput');
+            searchInput.placeholder = `Search ${halls.length} halls...`;
             sortByName();
             getLocation();
         })
