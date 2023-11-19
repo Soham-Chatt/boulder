@@ -32,10 +32,15 @@ function showError(error) {
     console.error("Geolocation error:", error.message);
     const warningElement = document.getElementById('warning');
     warningElement.style.display = 'block';
+    warningElement.innerHTML = `
+        <button type="button" class="btn-close" aria-label="Close" onclick="closeWarning()"></button>
+        <strong>Error:</strong> Location permissions denied. Try again with location permissions to get distances.
+    `;
+}
 
-    if (error.code === error.PERMISSION_DENIED) {
-        warningElement.textContent = "Location permissions denied. Try again with location permissions to get distances.";
-    }
+function closeWarning() {
+    const warningElement = document.getElementById('warning');
+    warningElement.style.display = 'none';
 }
 
 function loadHalls() {
