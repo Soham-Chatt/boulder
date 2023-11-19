@@ -61,6 +61,7 @@ function updateHallList() {
             hall.distance = calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude);
         });
         halls.sort((a, b) => a.distance - b.distance);
+        sortState.name='asc';
     } else {
         sortByName();
     }
