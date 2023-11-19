@@ -7,7 +7,6 @@ let sortState = {
     distance: 'asc'
 };
 
-
 function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -35,18 +34,16 @@ function showError(error) {
     warningElement.style.display = 'block';
 
     if (error.code === error.PERMISSION_DENIED) {
-        warningElement.textContent = "Location permissions denied. Sorting halls alphabetically.";
+        warningElement.textContent = "Location permissions denied. Try again with location permissions to get distances.";
     }
-
-    sortByName();
 }
-
 
 function loadHalls() {
     fetch('./halls.json')
         .then(response => response.json())
         .then(data => {
             halls.push(...data);
+            sortByName();
             getLocation();
         })
         .catch(error => console.error(error));
@@ -134,6 +131,5 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
-
 
 loadHalls();
