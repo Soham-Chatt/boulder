@@ -60,7 +60,7 @@ function updateHallList() {
         halls.forEach(hall => {
             hall.distance = calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude);
         });
-        halls.sort((a, b) => a.distance - b.distance);
+        sortByDistance();
         sortState.name='asc';
     } else {
         sortByName();
@@ -78,7 +78,11 @@ function sortByName() {
 
 function sortByCity() {
     halls.sort((a, b) => {
-        return sortState.city === 'asc' ? a.city.localeCompare(b.city) : b.city.localeCompare(a.city);
+        const cityCompare = sortState.city === 'asc' ? a.city.localeCompare(b.city) : b.city.localeCompare(a.city);
+        if (cityCompare === 0) {
+            return a.name.localeCompare(b.name);
+        }
+        return cityCompare;
     });
     sortState.city = sortState.city === 'asc' ? 'desc' : 'asc';
     displayHalls(halls);
@@ -86,11 +90,16 @@ function sortByCity() {
 
 function sortByProvince() {
     halls.sort((a, b) => {
-        return sortState.province === 'asc' ? a.province.localeCompare(b.province) : b.province.localeCompare(a.province);
+        const provinceCompare = sortState.province === 'asc' ? a.province.localeCompare(b.province) : b.province.localeCompare(a.province);
+        if (provinceCompare === 0) {
+            return a.name.localeCompare(b.name);
+        }
+        return provinceCompare;
     });
     sortState.province = sortState.province === 'asc' ? 'desc' : 'asc';
     displayHalls(halls);
 }
+
 
 function sortByDistance() {
     halls.sort((a, b) => {
