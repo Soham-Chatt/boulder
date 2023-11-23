@@ -1,10 +1,12 @@
 const halls = [];
+const visitedColour = '#2f7531';
 let myCoordinates = null;
 let sortState = {
     name: 'asc',
     city: 'asc',
     province: 'asc',
-    distance: 'asc'
+    distance: 'asc',
+    visited: false,
 };
 
 function getLocation() {
@@ -48,6 +50,7 @@ function loadHalls() {
         .then(response => response.json())
         .then(data => {
             halls.push(...data);
+            console.log(halls);
             document.getElementById('searchInput').placeholder = `Search ${halls.length} halls...`;
             sortByName();
             getLocation();
@@ -125,10 +128,10 @@ function displayHalls(hallList) {
     hallList.forEach(hall => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${hall.name}</td>
-            <td>${hall.city}</td>
-            <td>${hall.province}</td>
-            <td>${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
+            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.name}</td>
+            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.city}</td>
+            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.province}</td>
+            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
         `;
         tableBody.appendChild(row);
     });
