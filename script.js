@@ -6,7 +6,7 @@ let sortState = {
     city: 'asc',
     province: 'asc',
     distance: 'asc',
-    visited: false,
+    visited: 'asc',
 };
 
 function getLocation() {
@@ -36,7 +36,7 @@ function showError(error) {
     warningElement.style.display = 'block';
     warningElement.innerHTML = `
         <button type="button" class="btn-close" aria-label="Close" onclick="closeWarning()"></button>
-        <strong>Error:</strong> Location permissions denied. Try again with location permissions to get distances.
+        <strong>Warning:</strong> Location permissions denied. Try again with location permissions to get distances.
     `;
 }
 
@@ -51,11 +51,17 @@ function loadHalls() {
         .then(data => {
             halls.push(...data);
             console.log(halls);
+            updateVisitedCounter();
             document.getElementById('searchInput').placeholder = `Search ${halls.length} halls...`;
             sortByName();
             getLocation();
         })
         .catch(error => console.error(error));
+}
+
+function updateVisitedCounter() {
+    const visitedCount = halls.filter(hall => hall.visited).length;
+    document.getElementById('visitedCounter').textContent = `${visitedCount} Visited`;
 }
 
 function updateHallList() {
@@ -113,6 +119,21 @@ function sortByDistance() {
     displayHalls(halls);
 }
 
+function sortByVisited() {
+    halls.sort((a, b) => {
+        if (a.visited === b.visited) {
+            // If both halls are visited or not visited, sort by distance
+            if (!a.distance || !b.distance) return !a.distance ? 1 : -1;
+            return sortState.distance === 'asc' ? a.distance - b.distance : b.distance - a.distance;
+        }
+        // Sort by visited status
+        return sortState.visited === 'asc' ? (a.visited ? -1 : 1) : (a.visited ? 1 : -1);
+    });
+    sortState.visited = sortState.visited === 'asc' ? 'desc' : 'asc';
+    displayHalls(halls);
+}
+
+
 function filterHalls() {
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
     const filteredHalls = halls.filter(hall =>
@@ -128,10 +149,10 @@ function displayHalls(hallList) {
     hallList.forEach(hall => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.name}</td>
-            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.city}</td>
-            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.province}</td>
-            <td style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
+            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.name}</td>
+            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.city}</td>
+            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.province}</td>
+            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
         `;
         tableBody.appendChild(row);
     });
