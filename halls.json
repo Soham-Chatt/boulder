@@ -1,8 +1,8 @@
 [
   {"name": "Apex Boulders", "city": "Groningen", "province": "Groningen", "latitude": 53.2161116, "longitude": 6.5390459},
   {"name": "Be Boulder", "city": "Amsterdam", "province": "Noord-Holland", "latitude": 52.3397191, "longitude": 4.8397124},
-  {"name": "Beest Boulders", "city": "Den Haag", "province": "Zuid-Holland", "latitude": 52.0693849, "longitude": 4.3186737},
-  {"name": "Beest Boulders 2", "city": "Den Haag", "province": "Zuid-Holland", "latitude": 52.0763455, "longitude": 4.3084002},
+  {"name": "Beest Boulders Den Haag HS", "city": "Den Haag", "province": "Zuid-Holland", "latitude": 52.069385, "longitude": 4.3209697},
+  {"name": "Beest Boulders Den Haag Centrum", "city": "Den Haag", "province": "Zuid-Holland", "latitude": 52.0763422, "longitude": 4.3109751},
   {"name": "Beest Boulders Adam", "city": "Amsterdam", "province": "Noord-Holland", "latitude": 52.3813127, "longitude": 4.8575601},
   {"name": "Beest Boulders Rdam", "city": "Rotterdam", "province": "Zuid-Holland", "latitude": 51.9273953, "longitude": 4.4737071},
   {"name": "Beta Boulders", "city": "Amsterdam", "province": "Noord-Holland", "latitude": 52.3441089, "longitude": 4.8535809},
