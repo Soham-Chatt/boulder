@@ -6,7 +6,7 @@ let sortState = {
     city: 'asc',
     province: 'asc',
     distance: 'asc',
-    visited: 'asc',
+    visited: false,
 };
 
 function getLocation() {
@@ -52,11 +52,15 @@ function loadHalls() {
             halls.push(...data);
             console.log(halls);
             updateVisitedCounter();
-            document.getElementById('searchInput').placeholder = `Search ${halls.length} halls...`;
+            updateSearchBar(halls.length);
             sortByName();
             getLocation();
         })
         .catch(error => console.error(error));
+}
+
+function updateSearchBar(count) {
+    document.getElementById('searchInput').placeholder = `Search ${count} halls...`;
 }
 
 function updateVisitedCounter() {
@@ -70,7 +74,7 @@ function updateHallList() {
             hall.distance = calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude);
         });
         sortByDistance();
-        sortState.name='asc';
+        sortState.name = 'asc';
     } else {
         sortByName();
     }
@@ -109,7 +113,6 @@ function sortByProvince() {
     displayHalls(halls);
 }
 
-
 function sortByDistance() {
     halls.sort((a, b) => {
         if (!a.distance || !b.distance) return !a.distance ? 1 : -1;
@@ -119,20 +122,10 @@ function sortByDistance() {
     displayHalls(halls);
 }
 
-function sortByVisited() {
-    halls.sort((a, b) => {
-        if (a.visited === b.visited) {
-            // If both halls are visited or not visited, sort by distance
-            if (!a.distance || !b.distance) return !a.distance ? 1 : -1;
-            return sortState.distance === 'asc' ? a.distance - b.distance : b.distance - a.distance;
-        }
-        // Sort by visited status
-        return sortState.visited === 'asc' ? (a.visited ? -1 : 1) : (a.visited ? 1 : -1);
-    });
-    sortState.visited = sortState.visited === 'asc' ? 'desc' : 'asc';
-    displayHalls(halls);
+function showVisited() {
+    displayHalls(sortState.visited ? halls : halls.filter(hall => hall.visited));
+    sortState.visited = !sortState.visited;
 }
-
 
 function filterHalls() {
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
@@ -156,6 +149,7 @@ function displayHalls(hallList) {
         `;
         tableBody.appendChild(row);
     });
+    updateSearchBar(hallList.length);
 }
 
 function calculateDistance(lat1, lon1, lat2, lon2) {
