@@ -26,6 +26,7 @@
   {"name": "Boulderhal Walhalla", "city": "Den Haag", "province": "Zuid-Holland", "latitude": 52.0617627, "longitude": 4.3113812, "visited":true},
   {"name": "Boulderhal Zuidhaven", "city": "Utrecht", "province": "Utrecht", "latitude": 52.0645971, "longitude": 5.101849, "visited":false},
   {"name": "Boulderkerk Venlo", "city": "Venlo", "province": "Limburg", "latitude": 51.3566826, "longitude": 6.180915, "visited":false},
+  {"name": "Boulderstation", "city": "Enschede", "province": "Overijssel", "latitude": 52.1696545, "longitude": 6.872356, "visited":false},
   {"name": "Cube Bouldergym", "city": "Enschede", "province": "Overijssel", "latitude": 52.2230313, "longitude": 6.901099, "visited":false},
   {"name": "Graviton Bouldergym", "city": "Sittard", "province": "Limburg", "latitude": 51.0036133, "longitude": 5.8554168, "visited":false},
   {"name": "Grip Boulderhal", "city": "Nijmegen", "province": "Gelderland", "latitude": 51.8129049, "longitude": 5.8356984, "visited":false},
