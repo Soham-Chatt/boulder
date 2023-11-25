@@ -28,10 +28,6 @@ function showPosition(position) {
         longitude: position.coords.longitude
     };
 
-    // Generate and Embed the Map
-    const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${myCoordinates.longitude-0.025}%2C${myCoordinates.latitude-0.015}%2C${myCoordinates.longitude+0.025}%2C${myCoordinates.latitude+0.015}&layer=mapnik&marker=${myCoordinates.latitude}%2C${myCoordinates.longitude}`;
-    if (myCoordinates) document.getElementById('map').innerHTML = `<iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="${mapUrl}"></iframe>`;
-
     updateHallList();
 }
 
@@ -43,6 +39,31 @@ function showError(error) {
         <button type="button" class="btn-close" aria-label="Close" onclick="closeWarning()"></button>
         <strong>Warning:</strong> Location permissions denied. Try again with location permissions to get distances.
     `;
+}
+
+function renderMap() {
+    if (myCoordinates) {
+        const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${myCoordinates.longitude-0.025}%2C${myCoordinates.latitude-0.015}%2C${myCoordinates.longitude+0.025}%2C${myCoordinates.latitude+0.015}&layer=mapnik&marker=${myCoordinates.latitude}%2C${myCoordinates.longitude}`;
+        document.getElementById('map').innerHTML = `<iframe width="100%" height="400" src="${mapUrl}"></iframe>`;
+    }
+}
+
+function toggleMap() {
+    const map = document.getElementById('map');
+    const button = document.getElementById('toggleMapButton');
+    const locationLabel = document.getElementById('locationLabel');
+
+    if (map.style.display === "none") {
+        if (!myCoordinates)return confirm("Location is not enabled. Would you like to enable location to see the map?") ? getLocation() : null;
+        renderMap();
+        map.style.display = "block";
+        button.textContent = "Hide Map";
+        locationLabel.textContent = "Your Location";
+    } else {
+        map.style.display = "none";
+        button.textContent = "Show Map";
+        locationLabel.textContent = "";
+    }
 }
 
 function closeWarning() {
