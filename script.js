@@ -27,6 +27,11 @@ function showPosition(position) {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
     };
+
+    // Generate and Embed the Map
+    const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${myCoordinates.longitude-0.025}%2C${myCoordinates.latitude-0.015}%2C${myCoordinates.longitude+0.025}%2C${myCoordinates.latitude+0.015}&layer=mapnik&marker=${myCoordinates.latitude}%2C${myCoordinates.longitude}`;
+    if (myCoordinates) document.getElementById('map').innerHTML = `<iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="${mapUrl}"></iframe>`;
+
     updateHallList();
 }
 
