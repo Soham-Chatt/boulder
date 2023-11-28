@@ -2,7 +2,7 @@ const logEntries = []
 let sortState = {
     name: 'asc',
     max_grade: 'asc',
-    date: 'desc'
+    date: 'asc'
 };
 
 document.addEventListener('DOMContentLoaded', function () {
