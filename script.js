@@ -34,6 +34,8 @@ function showPosition(position) {
 function showError(error) {
     console.error("Geolocation error:", error.message);
     const warningElement = document.getElementById('warning');
+    const mapButton = document.getElementById('toggleMapButton');
+    mapButton.disabled = true;
     warningElement.style.display = 'block';
     warningElement.innerHTML = `
         <button type="button" class="btn-close" aria-label="Close" onclick="closeWarning()"></button>
@@ -54,7 +56,7 @@ function toggleMap() {
     const locationLabel = document.getElementById('locationLabel');
 
     if (map.style.display === "none") {
-        if (!myCoordinates)return confirm("Location is not enabled. Would you like to enable location to see the map?") ? getLocation() : null;
+        if (!myCoordinates) return alert("Location is not enabled.");
         renderMap();
         map.style.display = "block";
         button.textContent = "Hide Map";
