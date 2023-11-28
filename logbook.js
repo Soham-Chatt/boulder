@@ -88,6 +88,7 @@ function convertNumberToFontGrade(number) {
 }
 
 function createGradeChart() {
+    logEntries.sort((a, b) => new Date(a.date) - new Date(b.date));
     const dates = logEntries.map(entry => entry.date);
     const grades = logEntries.map(entry => convertFontGradeToNumber(entry.max_grade));
 
