@@ -1,5 +1,4 @@
 const halls = [];
-const visitedColour = '#2f7531';
 let myCoordinates = null;
 let sortState = {
     name: 'asc',
@@ -79,7 +78,6 @@ function loadHalls() {
         .then(data => {
             halls.push(...data);
             console.log(halls);
-            updateVisitedCounter();
             updateSearchBar(halls.length);
             sortByName();
             getLocation();
@@ -89,11 +87,6 @@ function loadHalls() {
 
 function updateSearchBar(count) {
     document.getElementById('searchInput').placeholder = `Search ${count} halls...`;
-}
-
-function updateVisitedCounter() {
-    const visitedCount = halls.filter(hall => hall.visited).length;
-    document.getElementById('visitedCounter').textContent = `${visitedCount} Visited`;
 }
 
 function updateHallList() {
@@ -150,11 +143,6 @@ function sortByDistance() {
     displayHalls(halls);
 }
 
-function showVisited() {
-    displayHalls(sortState.visited ? halls : halls.filter(hall => hall.visited));
-    sortState.visited = !sortState.visited;
-}
-
 function filterHalls() {
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
     const filteredHalls = halls.filter(hall =>
@@ -170,10 +158,10 @@ function displayHalls(hallList) {
     hallList.forEach(hall => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.name}</td>
-            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.city}</td>
-            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.province}</td>
-            <td class="text-white" style="${hall.visited ? `background-color: ${visitedColour};` : ''}">${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
+            <td class="text-white">${hall.name}</td>
+            <td class="text-white">${hall.city}</td>
+            <td class="text-white">${hall.province}</td>
+            <td class="text-white">${hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
         `;
         tableBody.appendChild(row);
     });
