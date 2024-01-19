@@ -24,7 +24,7 @@
     "latitude": 52.069385,
     "longitude": 4.3209697,
     "visited": true,
-    "rating": 7
+    "rating": 6
   },
   {
     "name": "Beest Boulders Den Haag Centrum",
@@ -50,8 +50,8 @@
     "province": "Zuid-Holland",
     "latitude": 51.9273953,
     "longitude": 4.4737071,
-    "visited": false,
-    "rating": "N/A"
+    "visited": true,
+    "rating": 6
   },
   {
     "name": "Beta Boulders",

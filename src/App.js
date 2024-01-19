@@ -18,12 +18,15 @@ function App() {
   }, []);
 
   function showPosition(position) {
-    setMyCoordinates({
+    const newCoordinates = {
       latitude: position.coords.latitude,
       longitude: position.coords.longitude
-    });
+    };
+
+    setMyCoordinates(newCoordinates);
     setShowWarning(false);
-    // Logic to update the hall list
+
+    console.log("New Geolocation:", newCoordinates);
   }
 
   function showError(error) {
@@ -36,12 +39,12 @@ function App() {
         <div className={"container py-5"}>
           <h1 className={"text-center mb-4"}>Boulder Halls</h1>
           <div className={"row justify-content-center"}>
-            <div className={"col-md-7"}>
-              <Warning message={"Location permissions denied. Try again with location permissions to get distances."} show={showWarning}/>
-            </div>
+            <Warning message={"Location permissions denied. Try again with location permissions to get distances."} show={showWarning}/>
 
             <div className={"col-md-8"}>
-
+              {/* Map component goes here as <Map coords={myCoordinates}/> */}
+              {/* Search component goes here as <Search/> */}
+              <Halls myCoordinates={myCoordinates}/>
             </div>
 
           </div>
