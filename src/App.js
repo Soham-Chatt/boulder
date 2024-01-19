@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Halls from './components/Halls';
-import hallsData from './halls.json';
 import Map from './components/Map';
 import Search from './components/Search';
 import Warning from './components/Warning';
+import hallsData from './halls.json';
 
 function App() {
   const [halls, setHalls] = useState([]);
@@ -64,7 +64,7 @@ function App() {
       return sortState.name === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
     });
     setDisplayedHalls(sortedHalls);
-    setSortState({ ...sortState, name: sortState.name === 'asc' ? 'desc' : 'asc' });
+    setSortState({...sortState, name: sortState.name === 'asc' ? 'desc' : 'asc'});
   };
 
   const sortByCity = () => {
@@ -72,7 +72,7 @@ function App() {
       return sortState.city === 'asc' ? a.city.localeCompare(b.city) : b.city.localeCompare(a.city);
     });
     setDisplayedHalls(sortedHalls);
-    setSortState({ ...sortState, city: sortState.city === 'asc' ? 'desc' : 'asc' });
+    setSortState({...sortState, city: sortState.city === 'asc' ? 'desc' : 'asc'});
   };
 
   const sortByProvince = () => {
@@ -80,7 +80,7 @@ function App() {
       return sortState.province === 'asc' ? a.province.localeCompare(b.province) : b.province.localeCompare(a.province);
     });
     setDisplayedHalls(sortedHalls);
-    setSortState({ ...sortState, province: sortState.province === 'asc' ? 'desc' : 'asc' });
+    setSortState({...sortState, province: sortState.province === 'asc' ? 'desc' : 'asc'});
   };
 
   const sortByDistance = () => {
@@ -88,7 +88,7 @@ function App() {
       return sortState.distance === 'asc' ? a.distance - b.distance : b.distance - a.distance;
     });
     setDisplayedHalls(sortedHalls);
-    setSortState({ ...sortState, distance: sortState.distance === 'asc' ? 'desc' : 'asc' });
+    setSortState({...sortState, distance: sortState.distance === 'asc' ? 'desc' : 'asc'});
   };
 
   const sortByRating = () => {
@@ -98,8 +98,16 @@ function App() {
       return sortState.rating === 'asc' ? a.rating - b.rating : b.rating - a.rating;
     });
     setDisplayedHalls(sortedHalls);
-    setSortState({ ...sortState, rating: sortState.rating === 'asc' ? 'desc' : 'asc' });
+    setSortState({...sortState, rating: sortState.rating === 'asc' ? 'desc' : 'asc'});
   };
+
+  const showVisited = () => {
+    const sortedHalls = [...halls].sort((a, b) => {
+      if (a.visited === b.visited) return 0;
+      return a.visited ? -1 : 1;
+    });
+    setDisplayedHalls(sortedHalls);
+  }
 
   // ---------------------- Helper functions ---------------------- //
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -120,33 +128,36 @@ function App() {
     const filteredHalls = halls.filter(hall =>
       hall.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
     setDisplayedHalls(filteredHalls);
   }
 
   return (
-      <div className="App">
-        <div className={"container py-5"}>
-          <h1 className={"text-center mb-4"}>Boulder Halls</h1>
-          <div className={"row justify-content-center"}>
-            <Warning message={"Location permissions denied. Try again with location permissions to get distances."} show={showWarning}/>
+    <div className="App">
+      <div className={"container py-5"}>
+        <h1 className={"text-center mb-4"}>Boulder Halls</h1>
+        <div className={"row justify-content-center"}>
+          <Warning message={"Location permissions denied. Try again with location permissions to get distances."}
+                   show={showWarning}/>
 
-            <div className={"col-md-8"}>
-              {/* Map component goes here as <Map coords={myCoordinates}/> */}
-              <Search visitedCount={visitedCount} onSearchChange={handleSearchChange}/>
-              <Halls
-                halls={displayedHalls}
-                sortByName={sortByName}
-                sortByCity={sortByCity}
-                sortByProvince={sortByProvince}
-                sortByDistance={sortByDistance}
-                sortByRating={sortByRating}
-              />
-            </div>
-
+          <div className={"col-md-8"}>
+            {/* Map component goes here as <Map coords={myCoordinates}/> */}
+            <Search
+              showVisited={showVisited}
+              visitedCount={visitedCount}
+              onSearchChange={handleSearchChange}/>
+            <Halls
+              halls={displayedHalls}
+              sortByName={sortByName}
+              sortByCity={sortByCity}
+              sortByProvince={sortByProvince}
+              sortByDistance={sortByDistance}
+              sortByRating={sortByRating}
+            />
           </div>
+
         </div>
       </div>
+    </div>
   );
 }
 

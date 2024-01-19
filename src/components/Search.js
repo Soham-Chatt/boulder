@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Search({ visitedCount, onSearchChange }) {
+function Search({ showVisited, visitedCount, onSearchChange }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
@@ -18,7 +18,7 @@ function Search({ visitedCount, onSearchChange }) {
           aria-describedby="basic-addon1"
           onInput={handleSearchInput}
         />
-        <button id="visitedCounter" className="btn btn-success">{visitedCount} Visited</button>
+        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Visited</button>
         <button id="toggleMapButton" className="btn btn-primary border-start">Show Map</button>
       </div>
     </div>
