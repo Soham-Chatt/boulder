@@ -1,4 +1,5 @@
 import React from 'react';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
   const handleSearchInput = (event) => {
