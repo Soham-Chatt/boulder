@@ -20,6 +20,7 @@ function App() {
     rating: 'asc'
   });
 
+  // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
     setHalls(hallsData);
     setDisplayedHalls(hallsData);
@@ -37,6 +38,22 @@ function App() {
     }
   }, [halls, myCoordinates, sortState]);
 
+  function showPosition(position) {
+    const newCoordinates = {
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    };
+
+    setMyCoordinates(newCoordinates);
+    setShowWarning(false);
+  }
+
+  function showError(error) {
+    console.error("Geolocation error:", error.message);
+    setShowWarning(true);
+  }
+
+  // ---------------------- Sorting functions ---------------------- //
   const sortByDistanceInitial = (hallsWithDistance) => {
     const sortedHalls = [...hallsWithDistance].sort((a, b) => a.distance - b.distance);
     setDisplayedHalls(sortedHalls);
@@ -84,6 +101,7 @@ function App() {
     setSortState({ ...sortState, rating: sortState.rating === 'asc' ? 'desc' : 'asc' });
   };
 
+  // ---------------------- Helper functions ---------------------- //
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     if (!lat1 || !lon1 || !lat2 || !lon2) return null;
 
@@ -104,21 +122,6 @@ function App() {
     );
 
     setDisplayedHalls(filteredHalls);
-  }
-
-  function showPosition(position) {
-    const newCoordinates = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    };
-
-    setMyCoordinates(newCoordinates);
-    setShowWarning(false);
-  }
-
-  function showError(error) {
-    console.error("Geolocation error:", error.message);
-    setShowWarning(true);
   }
 
   return (

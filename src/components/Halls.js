@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function Halls( { halls, sortByName, sortByCity, sortByProvince, sortByDistance, sortByRating } ) {
   const [visitedColour] = useState('#2f7531');
