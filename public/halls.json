@@ -1,0 +1,416 @@
+[
+  {
+    "name": "Apex Boulders",
+    "city": "Groningen",
+    "province": "Groningen",
+    "latitude": 53.2161116,
+    "longitude": 6.5390459,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Be Boulder",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3397191,
+    "longitude": 4.8397124,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Beest Boulders Den Haag HS",
+    "city": "Den Haag",
+    "province": "Zuid-Holland",
+    "latitude": 52.069385,
+    "longitude": 4.3209697,
+    "visited": true,
+    "rating": 7
+  },
+  {
+    "name": "Beest Boulders Den Haag Centrum",
+    "city": "Den Haag",
+    "province": "Zuid-Holland",
+    "latitude": 52.0763422,
+    "longitude": 4.3109751,
+    "visited": true,
+    "rating": 10
+  },
+  {
+    "name": "Beest Boulders Amsterdam",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3813127,
+    "longitude": 4.8575601,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Beest Boulders Rotterdam",
+    "city": "Rotterdam",
+    "province": "Zuid-Holland",
+    "latitude": 51.9273953,
+    "longitude": 4.4737071,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Beta Boulders",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3441089,
+    "longitude": 4.8535809,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulder Neoliet Rotterdam",
+    "city": "Rotterdam",
+    "province": "Zuid-Holland",
+    "latitude": 51.9083491,
+    "longitude": 4.4312261,
+    "visited": true,
+    "rating": 9
+  },
+  {
+    "name": "Bossche Boulders",
+    "city": "Den Bosch",
+    "province": "Noord-Brabant",
+    "latitude": 51.6959284,
+    "longitude": 5.276932,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulder Neoliet Tilburg ",
+    "city": "Tilburg",
+    "province": "Noord-Brabant",
+    "latitude": 51.5397728,
+    "longitude": 5.0725776,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Bouldercentrum Delfts Bleau",
+    "city": "Delft",
+    "province": "Zuid-Holland",
+    "latitude": 51.9948254,
+    "longitude": 4.3619873,
+    "visited": true,
+    "rating": 8
+  },
+  {
+    "name": "Bouldergym BAZ",
+    "city": "Zaandam",
+    "province": "Noord-Holland",
+    "latitude": 52.4605953,
+    "longitude": 4.8113805,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Block013",
+    "city": "Tilburg",
+    "province": "Noord-Brabant",
+    "latitude": 51.5770509,
+    "longitude": 5.0894133,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Bruut",
+    "city": "Breda",
+    "province": "Noord-Brabant",
+    "latitude": 51.5981715,
+    "longitude": 4.7534465,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal de Campus",
+    "city": "Den Haag",
+    "province": "Zuid-Holland",
+    "latitude": 52.0495518,
+    "longitude": 4.2520155,
+    "visited": true,
+    "rating": 8
+  },
+  {
+    "name": "Boulderhal de Fabriek Haarlem",
+    "city": "Haarlem",
+    "province": "Noord-Holland",
+    "latitude": 52.391891,
+    "longitude": 4.6452968,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal de Fabriek Hoofddorp",
+    "city": "Hoofddorp",
+    "province": "Noord-Holland",
+    "latitude": 52.3134638,
+    "longitude": 4.6889907,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Energiehaven",
+    "city": "Utrecht",
+    "province": "Utrecht",
+    "latitude": 52.1000727,
+    "longitude": 5.0682918,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Krachtstof",
+    "city": "Leiden",
+    "province": "Zuid-Holland",
+    "latitude": 52.1585585,
+    "longitude": 4.5093736,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Kunststof",
+    "city": "Leiden",
+    "province": "Zuid-Holland",
+    "latitude": 52.1450553,
+    "longitude": 4.4784421,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Roest",
+    "city": "Zwolle",
+    "province": "Overijssel",
+    "latitude": 52.4987208,
+    "longitude": 6.1172713,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Sendmast",
+    "city": "Alkmaar",
+    "province": "Noord-Holland",
+    "latitude": 52.6177115,
+    "longitude": 4.7641801,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Sterk",
+    "city": "Utrecht",
+    "province": "Utrecht",
+    "latitude": 52.0763922,
+    "longitude": 5.1057584,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Sterk Spoor",
+    "city": "Utrecht",
+    "province": "Utrecht",
+    "latitude": 52.1052052,
+    "longitude": 5.0801795,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderhal Walhalla",
+    "city": "Den Haag",
+    "province": "Zuid-Holland",
+    "latitude": 52.0617627,
+    "longitude": 4.3113812,
+    "visited": true,
+    "rating": 5
+  },
+  {
+    "name": "Boulderhal Zuidhaven",
+    "city": "Utrecht",
+    "province": "Utrecht",
+    "latitude": 52.0645971,
+    "longitude": 5.101849,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderkerk Venlo",
+    "city": "Venlo",
+    "province": "Limburg",
+    "latitude": 51.3566826,
+    "longitude": 6.180915,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulderstation",
+    "city": "Enschede",
+    "province": "Overijssel",
+    "latitude": 52.1696545,
+    "longitude": 6.872356,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Cube Bouldergym",
+    "city": "Enschede",
+    "province": "Overijssel",
+    "latitude": 52.2230313,
+    "longitude": 6.901099,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Graviton Bouldergym",
+    "city": "Sittard",
+    "province": "Limburg",
+    "latitude": 51.0036133,
+    "longitude": 5.8554168,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Grip Boulderhal",
+    "city": "Nijmegen",
+    "province": "Gelderland",
+    "latitude": 51.8129049,
+    "longitude": 5.8356984,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Gropo Bouldergym",
+    "city": "Groningen",
+    "province": "Groningen",
+    "latitude": 53.2306283,
+    "longitude": 6.5867853,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Het Lab",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3925032,
+    "longitude": 4.848814,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Impact Boulderhal",
+    "city": "Almere",
+    "province": "Flevoland",
+    "latitude": 52.3760925,
+    "longitude": 5.2354661,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Kei Boulderhal",
+    "city": "Amersfoort",
+    "province": "Utrecht",
+    "latitude": 52.1566672,
+    "longitude": 5.3622722,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Kei Boulderhal De Hoef",
+    "city": "Amersfoort",
+    "province": "Utrecht",
+    "latitude": 52.1802413,
+    "longitude": 5.4126024,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Monk Amsterdam",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3836015,
+    "longitude": 4.9268093,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Club Monk",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3385521,
+    "longitude": 4.9244722,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Monk Eindhoven",
+    "city": "Eindhoven",
+    "province": "Noord-Brabant",
+    "latitude": 51.4434952,
+    "longitude": 5.453805,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Monk Hilversum",
+    "city": "Hilversum",
+    "province": "Noord-Holland",
+    "latitude": 52.2200444,
+    "longitude": 5.1466185,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Monk Rotterdam",
+    "city": "Rotterdam",
+    "province": "Zuid-Holland",
+    "latitude": 51.9416253,
+    "longitude": 4.4707071,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Radium Boulders",
+    "city": "Maastricht",
+    "province": "Limburg",
+    "latitude": 50.8568263,
+    "longitude": 5.6798863,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Revolt Boulderhal",
+    "city": "Delft",
+    "province": "Zuid-Holland",
+    "latitude": 52.0255268,
+    "longitude": 4.3643464,
+    "visited": true,
+    "rating": 8
+  },
+  {
+    "name": "RijnBoulder",
+    "city": "Arnhem",
+    "province": "Gelderland",
+    "latitude": 51.9628012,
+    "longitude": 5.8981737,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "The Climbing Corner",
+    "city": "Heerlen",
+    "province": "Limburg",
+    "latitude": 50.8955068,
+    "longitude": 5.9542875,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Wildflower Climbing Gym",
+    "city": "Leiden",
+    "province": "Zuid-Holland",
+    "latitude": 52.1594579,
+    "longitude": 4.5112823,
+    "visited": false,
+    "rating": "N/A"
+  }
+]
