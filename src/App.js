@@ -99,7 +99,11 @@ function App() {
   }
 
   const handleSearchChange = (searchQuery) => {
-    return hallsData.filter(hall => hall.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredHalls = halls.filter(hall =>
+      hall.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    setDisplayedHalls(filteredHalls);
   }
 
   function showPosition(position) {
