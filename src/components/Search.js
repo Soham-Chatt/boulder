@@ -1,9 +1,10 @@
 import React from 'react';
 
-function Search({ showVisited, visitedCount, onSearchChange }) {
+function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
+  const placeholderText=`Search ${hallCount} halls...`;
 
   return (
     <div className="col-md">
@@ -13,13 +14,12 @@ function Search({ showVisited, visitedCount, onSearchChange }) {
           type="text"
           id="searchInput"
           className="form-control"
-          placeholder="Search..."
+          placeholder={placeholderText}
           aria-label="search"
           aria-describedby="basic-addon1"
           onInput={handleSearchInput}
         />
         <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Visited</button>
-        <button id="toggleMapButton" className="btn btn-primary border-start">Show Map</button>
       </div>
     </div>
   );

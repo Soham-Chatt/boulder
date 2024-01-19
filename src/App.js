@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Halls from './components/Halls';
-import Map from './components/Map';
 import Search from './components/Search';
 import Warning from './components/Warning';
 import hallsData from './halls.json';
@@ -144,6 +143,7 @@ function App() {
             <Search
               showVisited={showVisited}
               visitedCount={visitedCount}
+              hallCount={halls.length}
               onSearchChange={handleSearchChange}/>
             <Halls
               halls={displayedHalls}
