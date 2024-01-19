@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Halls( { halls, sortByName, sortByCity, sortByProvince, sortByDistance, sortByRating } ) {
+function Halls( { halls, sortBy } ) {
   const [visitedColour] = useState('#2f7531');
 
   return (
@@ -8,11 +8,11 @@ function Halls( { halls, sortByName, sortByCity, sortByProvince, sortByDistance,
       <table className="table table-striped border">
         <thead>
         <tr>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={sortByName}>Name</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={sortByCity}>City</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={sortByProvince}>Province</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={sortByDistance}>Distance</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={sortByRating}>Rating</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('name')}>Name</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('city')}>City</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('province')}>Province</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('distance')}>Distance</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('rating')}>Rating</button></th>
         </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@ function Halls( { halls, sortByName, sortByCity, sortByProvince, sortByDistance,
             <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.name}</td>
             <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.city}</td>
             <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.province}</td>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.distance ? `${hall.distance.toFixed(2)} km` : 'N/A'}</td>
+            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.distance ? `${hall.distance.toFixed(2)} km` : '-'}</td>
             <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.rating}</td>
           </tr>
         ))}

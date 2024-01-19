@@ -35,7 +35,7 @@ function App() {
       }));
       sortByDistanceInitial(updatedHalls);
     }
-  }, [halls, myCoordinates, sortState]);
+  }, [halls, myCoordinates]);
 
   function showPosition(position) {
     const newCoordinates = {
@@ -58,46 +58,22 @@ function App() {
     setDisplayedHalls(sortedHalls);
   };
 
-  const sortByName = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
-      return sortState.name === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+  const sortBy = (type) => {
+    const sortedHalls = [...displayedHalls].sort((a, b) => {
+      if (type === 'distance' || type === 'rating') {
+        let valA = type === 'rating' && a[type] === "N/A" ? -Infinity : a[type];
+        let valB = type === 'rating' && b[type] === "N/A" ? -Infinity : b[type];
+        return sortState[type] === 'asc' ? valA - valB : valB - valA;
+      } else {
+        return sortState[type] === 'asc' ? a[type].localeCompare(b[type]) : b[type].localeCompare(a[type]);
+      }
     });
-    setDisplayedHalls(sortedHalls);
-    setSortState({...sortState, name: sortState.name === 'asc' ? 'desc' : 'asc'});
-  };
 
-  const sortByCity = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
-      return sortState.city === 'asc' ? a.city.localeCompare(b.city) : b.city.localeCompare(a.city);
-    });
     setDisplayedHalls(sortedHalls);
-    setSortState({...sortState, city: sortState.city === 'asc' ? 'desc' : 'asc'});
-  };
-
-  const sortByProvince = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
-      return sortState.province === 'asc' ? a.province.localeCompare(b.province) : b.province.localeCompare(a.province);
-    });
-    setDisplayedHalls(sortedHalls);
-    setSortState({...sortState, province: sortState.province === 'asc' ? 'desc' : 'asc'});
-  };
-
-  const sortByDistance = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
-      return sortState.distance === 'asc' ? a.distance - b.distance : b.distance - a.distance;
-    });
-    setDisplayedHalls(sortedHalls);
-    setSortState({...sortState, distance: sortState.distance === 'asc' ? 'desc' : 'asc'});
-  };
-
-  const sortByRating = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
-      if (a.rating === "N/A") return 1;
-      if (b.rating === "N/A") return -1;
-      return sortState.rating === 'asc' ? a.rating - b.rating : b.rating - a.rating;
-    });
-    setDisplayedHalls(sortedHalls);
-    setSortState({...sortState, rating: sortState.rating === 'asc' ? 'desc' : 'asc'});
+    setSortState(prevState => ({
+      ...prevState,
+      [type]: prevState[type] === 'asc' ? 'desc' : 'asc'
+    }));
   };
 
   const showVisited = () => {
@@ -147,11 +123,7 @@ function App() {
               onSearchChange={handleSearchChange}/>
             <Halls
               halls={displayedHalls}
-              sortByName={sortByName}
-              sortByCity={sortByCity}
-              sortByProvince={sortByProvince}
-              sortByDistance={sortByDistance}
-              sortByRating={sortByRating}
+              sortBy={sortBy}
             />
           </div>
 
