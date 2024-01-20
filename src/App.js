@@ -108,7 +108,6 @@ function App() {
       hall.province.toLowerCase().includes(lowerCaseQuery) ||
       (hall.rating && hall.rating.toString().toLowerCase().includes(lowerCaseQuery))
     );
-
     setDisplayedHalls(filteredHalls);
   }
 
