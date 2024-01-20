@@ -77,7 +77,7 @@ function App() {
   };
 
   const showVisited = () => {
-    const sortedHalls = [...halls].sort((a, b) => {
+    const sortedHalls = [...displayedHalls].sort((a, b) => {
       if (a.visited === b.visited) return 0;
       return a.visited ? -1 : 1;
     });
