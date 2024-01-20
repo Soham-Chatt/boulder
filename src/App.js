@@ -101,7 +101,8 @@ function App() {
 
   const handleSearchChange = (searchQuery) => {
     const filteredHalls = halls.filter(hall =>
-      hall.name.toLowerCase().includes(searchQuery.toLowerCase())
+      hall.name.toLowerCase().includes(searchQuery) || hall.city.toLowerCase().includes(searchQuery) ||
+      hall.province.toLowerCase().includes(searchQuery) || hall.rating.toLowerCase().includes(searchQuery)
     );
     setDisplayedHalls(filteredHalls);
   }
