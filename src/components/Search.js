@@ -5,7 +5,7 @@ function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
-  const placeholderText=`Search ${hallCount} halls...`;
+  const placeholderText=`Zoek voor ${hallCount} hallen...`;
 
   return (
     <div className="col-md">
@@ -20,7 +20,7 @@ function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
           aria-describedby="basic-addon1"
           onInput={handleSearchInput}
         />
-        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Visited</button>
+        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Bezocht</button>
       </div>
     </div>
   );
