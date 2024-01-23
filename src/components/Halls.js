@@ -8,10 +8,10 @@ function Halls( { halls, sortBy } ) {
       <table className="table table-striped border">
         <thead>
         <tr>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('name')}>Name</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('city')}>City</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('province')}>Province</button></th>
-          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('distance')}>Distance</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('name')}>Naam</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('city')}>Stad</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('province')}>Provincie</button></th>
+          <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('distance')}>Afstand</button></th>
           <th className={"bg-dark"}><button className={"btn btn-secondary"} onClick={() => sortBy('rating')}>Rating</button></th>
         </tr>
         </thead>

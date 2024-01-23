@@ -115,7 +115,7 @@ function App() {
   return (
     <div className="App">
       <div className={"container py-5"}>
-        <h1 className={"text-center mb-4"}>Boulder Halls</h1>
+        <h1 className={"text-center mb-4"}>Boulderhallen</h1>
         <div className={"row justify-content-center"}>
           <Warning message={"Location permissions denied. Try again with location permissions to get distances."}
                    show={showWarning}/>
