@@ -168,7 +168,7 @@
     "latitude": 52.1585585,
     "longitude": 4.5093736,
     "visited": true,
-    "rating": 7
+    "rating": 6
   },
   {
     "name": "Boulderhal Kunststof",
@@ -366,7 +366,7 @@
     "latitude": 51.9416253,
     "longitude": 4.4707071,
     "visited": false,
-    "rating": "N/A"
+    "rating": 7
   },
   {
     "name": "Radium Boulders",

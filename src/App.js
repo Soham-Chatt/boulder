@@ -117,7 +117,7 @@ function App() {
       <div className={"container py-5"}>
         <h1 className={"text-center mb-4"}>Boulderhallen</h1>
         <div className={"row justify-content-center"}>
-          <Warning message={"Location permissions denied. Try again with location permissions to get distances."}
+          <Warning message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
                    show={showWarning}/>
 
           <div className={"col-md-8"}>
