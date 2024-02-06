@@ -63,15 +63,6 @@
     "rating": "N/A"
   },
   {
-    "name": "Boulder Neoliet Rotterdam",
-    "city": "Rotterdam",
-    "province": "Zuid-Holland",
-    "latitude": 51.9083491,
-    "longitude": 4.4312261,
-    "visited": true,
-    "rating": 9
-  },
-  {
     "name": "Bossche Boulders",
     "city": "Den Bosch",
     "province": "Noord-Brabant",
@@ -81,11 +72,29 @@
     "rating": "N/A"
   },
   {
-    "name": "Boulder Neoliet Tilburg ",
+    "name": "Boulder Neoliet Rotterdam",
+    "city": "Rotterdam",
+    "province": "Zuid-Holland",
+    "latitude": 51.9083491,
+    "longitude": 4.4312261,
+    "visited": true,
+    "rating": 9
+  },
+  {
+    "name": "Boulder Neoliet Tilburg",
     "city": "Tilburg",
     "province": "Noord-Brabant",
     "latitude": 51.5397728,
     "longitude": 5.0725776,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Boulder Neoliet Veldhoven",
+    "city": "Veldhoven",
+    "province": "Noord-Brabant",
+    "latitude": 51.4250592,
+    "longitude": 5.4134313,
     "visited": false,
     "rating": "N/A"
   },
