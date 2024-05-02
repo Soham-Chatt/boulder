@@ -147,24 +147,26 @@ function App() {
         <div className={"row justify-content-center"}>
           <Warning
             message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
-            show={showWarning}/>
-
+            show={showWarning}
+            onClose={() => setShowWarning(false)}
+          />
           <div className={"col-md-8"}>
             {showMap && <Map
               data={displayedHalls}
-              coords={myCoordinates}/>}
+              coords={myCoordinates}
+            />}
             <Search
               showVisited={showVisited}
               showMap={toggleMapVisibility}
               visitedCount={visitedCount}
               hallCount={displayedHalls.length}
-              onSearchChange={handleSearchChange}/>
+              onSearchChange={handleSearchChange}
+            />
             <Halls
               halls={displayedHalls}
               sortBy={sortBy}
             />
           </div>
-
         </div>
       </div>
     </div>
