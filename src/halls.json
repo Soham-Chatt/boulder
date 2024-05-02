@@ -18,6 +18,24 @@
     "rating": "N/A"
   },
   {
+    "name": "Beest Boulders Amsterdam",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3813127,
+    "longitude": 4.8575601,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
+    "name": "Beest Boulders Breda",
+    "city": "Breda",
+    "province": "Noord-Brabant",
+    "latitude": 51.5958852,
+    "longitude": 4.7547585,
+    "visited": false,
+    "rating": "N/A"
+  },
+  {
     "name": "Beest Boulders Den Haag HS",
     "city": "Den Haag",
     "province": "Zuid-Holland",
@@ -34,15 +52,6 @@
     "longitude": 4.3109751,
     "visited": true,
     "rating": 10
-  },
-  {
-    "name": "Beest Boulders Amsterdam",
-    "city": "Amsterdam",
-    "province": "Noord-Holland",
-    "latitude": 52.3813127,
-    "longitude": 4.8575601,
-    "visited": false,
-    "rating": "N/A"
   },
   {
     "name": "Beest Boulders Rotterdam",
