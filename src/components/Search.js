@@ -24,7 +24,7 @@ function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange 
           {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
         </button>
         <button id="mapToggle" className="btn btn-warning" onClick={showMap}>
-          <span className="d-none d-sm-inline">Toon </span>kaart
+          <i className="bi bi-geo-alt-fill"></i>
         </button>
       </div>
     </div>
