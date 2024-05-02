@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
+import {useEffect, useState} from 'react';
+import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 
@@ -24,14 +24,21 @@ const UpdateCenter = ({coords}) => {
 };
 
 function Map({data, coords}) {
-  const validData = data.filter(marker => marker.latitude && marker.longitude);
-  const center = validData.reduce((acc, marker) => {
-    acc.lat += marker.latitude;
-    acc.lon += marker.longitude;
-    return acc;
-  }, {lat: 0, lon: 0, count: validData.length});
+  const calculateCenter = (data) => { 
+    const latitudes = data.map(marker => marker.latitude);
+    const longitudes = data.map(marker => marker.longitude);
+    const center = {
+      latitude: (Math.min(...latitudes) + Math.max(...latitudes)) / 2,
+      longitude: (Math.min(...longitudes) + Math.max(...longitudes)) / 2
+    };
+    return [center.latitude, center.longitude];
+  };
 
-  const defaultPosition = [center.lat / center.count, center.lon / center.count];
+  const [visibleHalls, setVisibleHalls] = useState(data.filter(marker => marker.latitude && marker.longitude));
+
+  useEffect(() => {
+    setVisibleHalls(data.filter(marker => marker.latitude && marker.longitude));
+  }, [data]);
 
   const icons = {
     blueIcon: new L.Icon({
@@ -59,12 +66,12 @@ function Map({data, coords}) {
       shadowSize: [41, 41]
     })
   };
-  console.log(coords)
+
   return (
     <MapContainer
       style={{height: "50vh", width: "100%"}}
-      center={coords && coords.lat && coords.lon ? [coords.lat, coords.lon] : defaultPosition}
-      zoom={10}
+      center={coords && coords.latitude && coords.longitude ? [coords.latitude, coords.longitude] : calculateCenter(data)}
+      zoom={11}
       minZoom={3}
       scrollWheelZoom={true}
     >
@@ -74,7 +81,7 @@ function Map({data, coords}) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <UpdateCenter coords={coords}/>
-      {validData.map((marker, index) => (
+      {visibleHalls.map((marker, index) => (
         <Marker
           key={index}
           position={[marker.latitude, marker.longitude]}

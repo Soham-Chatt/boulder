@@ -17,7 +17,8 @@ function App() {
     city: 'asc',
     province: 'asc',
     distance: 'asc',
-    rating: 'asc'
+    rating: 'asc',
+    visited: false
   });
   const [showMap, setShowMap] = useState(false);
   const [locationSet, setLocationSet] = useState(false);
@@ -94,12 +95,18 @@ function App() {
   };
 
   const showVisited = () => {
-    const sortedHalls = [...displayedHalls].sort((a, b) => {
-      if (a.visited === b.visited) return 0;
-      return a.visited ? -1 : 1;
-    });
-    setDisplayedHalls(sortedHalls);
+    if (sortState.visited) {
+      setDisplayedHalls(halls);
+    } else {
+      const visitedHalls = displayedHalls.filter(hall => hall.visited);
+      setDisplayedHalls(visitedHalls);
+    }
+    setSortState(prevState => ({
+      ...prevState,
+      visited: !prevState.visited
+    }));
   }
+
 
   const toggleMapVisibility = () => {
     setShowMap(!showMap);
@@ -144,7 +151,7 @@ function App() {
 
           <div className={"col-md-8"}>
             {showMap && <Map
-              data={hallsData}
+              data={displayedHalls}
               coords={myCoordinates}/>}
             <Search
               showVisited={showVisited}
