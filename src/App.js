@@ -3,12 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Halls from './components/Halls';
 import Search from './components/Search';
 import Warning from './components/Warning';
+import Map from './components/Map';
 import hallsData from './halls.json';
 
 function App() {
   const [halls, setHalls] = useState([]);
   const [displayedHalls, setDisplayedHalls] = useState([]);
-  const [showWarning, setShowWarning] = React.useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [myCoordinates, setMyCoordinates] = useState(null);
   const [visitedCount, setVisitedCount] = useState(0);
   const [sortState, setSortState] = useState({
@@ -18,6 +19,8 @@ function App() {
     distance: 'asc',
     rating: 'asc'
   });
+  const [showMap, setShowMap] = useState(false);
+  const [locationSet, setLocationSet] = useState(false);
 
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
@@ -26,6 +29,20 @@ function App() {
     setVisitedCount(hallsData.filter(hall => hall.visited).length);
     navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : console.error("Geolocation is not supported by this browser.");
   }, []);
+
+
+  useEffect(() => {
+    if (!locationSet) {
+      const geoId = navigator.geolocation.watchPosition(showPosition, showError, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+
+      return () => navigator.geolocation.clearWatch(geoId);
+    }
+  }, [locationSet]);
+
 
   useEffect(() => {
     if (myCoordinates) {
@@ -38,18 +55,18 @@ function App() {
   }, [halls, myCoordinates]);
 
   function showPosition(position) {
-    const newCoordinates = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    };
-
-    setMyCoordinates(newCoordinates);
-    setShowWarning(false);
+    if (!locationSet) {
+      const {latitude, longitude} = position.coords;
+      setMyCoordinates({latitude, longitude});
+      setLocationSet(true);
+      setShowWarning(false);
+    }
   }
 
   function showError(error) {
     console.error("Geolocation error:", error.message);
     setShowWarning(true);
+    setLocationSet(true);
   }
 
   // ---------------------- Sorting functions ---------------------- //
@@ -84,6 +101,10 @@ function App() {
     setDisplayedHalls(sortedHalls);
   }
 
+  const toggleMapVisibility = () => {
+    setShowMap(!showMap);
+  };
+
   // ---------------------- Helper functions ---------------------- //
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     if (!lat1 || !lon1 || !lat2 || !lon2) return null;
@@ -117,13 +138,17 @@ function App() {
       <div className={"container py-5"}>
         <h1 className={"text-center mb-4"}>Boulderhallen</h1>
         <div className={"row justify-content-center"}>
-          <Warning message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
-                   show={showWarning}/>
+          <Warning
+            message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
+            show={showWarning}/>
 
           <div className={"col-md-8"}>
-            {/* Map component goes here as <Map coords={myCoordinates}/> */}
+            {showMap && <Map
+              data={hallsData}
+              coords={myCoordinates}/>}
             <Search
               showVisited={showVisited}
+              showMap={toggleMapVisibility}
               visitedCount={visitedCount}
               hallCount={halls.length}
               onSearchChange={handleSearchChange}/>
