@@ -9,7 +9,7 @@ import hallsData from './halls.json';
 function App() {
   const [halls, setHalls] = useState([]);
   const [displayedHalls, setDisplayedHalls] = useState([]);
-  const [showWarning, setShowWarning] = React.useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [myCoordinates, setMyCoordinates] = useState(null);
   const [visitedCount, setVisitedCount] = useState(0);
   const [sortState, setSortState] = useState({
@@ -28,6 +28,7 @@ function App() {
     setVisitedCount(hallsData.filter(hall => hall.visited).length);
     navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : console.error("Geolocation is not supported by this browser.");
   }, []);
+
 
   useEffect(() => {
     if (myCoordinates) {
