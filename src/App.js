@@ -152,9 +152,17 @@ function App() {
       hall.province.toLowerCase().includes(lowerCaseQuery) ||
       (hall.rating && hall.rating.toString().toLowerCase().includes(lowerCaseQuery))
     );
-    setDisplayedHalls(filteredHalls);
-  }
 
+    if (myCoordinates) {
+      const hallsWithDistance = filteredHalls.map(hall => ({
+        ...hall,
+        distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
+      }));
+      setDisplayedHalls(hallsWithDistance);
+    } else {
+      setDisplayedHalls(filteredHalls);
+    }
+  };
 
   return (
     <div className="App">
