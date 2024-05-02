@@ -56,8 +56,8 @@ function App() {
 
   function showPosition(position) {
     if (!locationSet) {
-      const { latitude, longitude } = position.coords;
-      setMyCoordinates({ latitude, longitude });
+      const {latitude, longitude} = position.coords;
+      setMyCoordinates({latitude, longitude});
       setLocationSet(true);
       setShowWarning(false);
     }
@@ -138,8 +138,9 @@ function App() {
       <div className={"container py-5"}>
         <h1 className={"text-center mb-4"}>Boulderhallen</h1>
         <div className={"row justify-content-center"}>
-          <Warning message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
-                   show={showWarning}/>
+          <Warning
+            message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
+            show={showWarning}/>
 
           <div className={"col-md-8"}>
             {showMap && <Map

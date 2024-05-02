@@ -1,11 +1,11 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange }) {
+function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange}) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
-  const placeholderText=`Zoek voor ${hallCount} hallen...`;
+  const placeholderText = `Zoek voor ${hallCount} hallen...`;
 
   return (
     <div className="col-md">

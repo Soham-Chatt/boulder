@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {MapContainer, TileLayer, Marker, Popup, useMap} from "react-leaflet";
 import L from 'leaflet';
 import "leaflet/dist/leaflet.css";
 
@@ -11,20 +11,19 @@ const ComponentResize = () => {
   return null;
 };
 
-const UpdateCenter = ({ coords }) => {
+const UpdateCenter = ({coords}) => {
   const map = useMap();
 
   useEffect(() => {
     if (coords && coords.latitude && coords.longitude) {
-      map.panTo(new L.LatLng(coords.latitude, coords.longitude), map.getZoom(), { animate: true, duration: 0.5 });
+      map.panTo(new L.LatLng(coords.latitude, coords.longitude), map.getZoom(), {animate: true, duration: 0.5});
     }
   }, [coords, map]);
 
   return null;
 };
 
-
-function Map ({ data, coords }) {
+function Map({data, coords}) {
   const validData = data.filter(marker => marker.latitude && marker.longitude);
   const center = validData.reduce((acc, marker) => {
     acc.lat += marker.latitude;
@@ -63,24 +62,24 @@ function Map ({ data, coords }) {
   console.log(coords)
   return (
     <MapContainer
-      style={{ height: "50vh", width: "100%" }}
+      style={{height: "50vh", width: "100%"}}
       center={coords && coords.lat && coords.lon ? [coords.lat, coords.lon] : defaultPosition}
       zoom={10}
       minZoom={3}
       scrollWheelZoom={true}
     >
-      <ComponentResize />
+      <ComponentResize/>
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <UpdateCenter coords={coords} />
+      <UpdateCenter coords={coords}/>
       {validData.map((marker, index) => (
         <Marker
           key={index}
           position={[marker.latitude, marker.longitude]}
           icon={marker.visited ? icons.greenIcon : icons.blueIcon}>
-          <Popup>{marker.name}<br />{marker.description}</Popup>
+          <Popup>{marker.name}<br/>{marker.description}</Popup>
         </Marker>
       ))}
       {coords && coords.latitude && coords.longitude && (
