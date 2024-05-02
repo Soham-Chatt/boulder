@@ -5,12 +5,12 @@ function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange})
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
-  const placeholderText = `Zoek voor ${hallCount} hallen...`;
+  const placeholderText = `Zoek door ${hallCount} hallen...`;
 
   return (
     <div className="col-md">
       <div className="input-group mb-3">
-        <span className="input-group-text" id="basic-addon1"><i className="bi bi-search"></i></span>
+        <button id="displayedHallsCounter" className="btn btn-info disabled">{hallCount}</button>
         <input
           type="text"
           id="searchInput"
@@ -20,8 +20,8 @@ function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange})
           aria-describedby="basic-addon1"
           onInput={handleSearchInput}
         />
-        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Bezocht</button>
-        <button id="visitedCounter" className="btn btn-info" onClick={showMap}>Kaart</button>
+        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} bezocht</button>
+        <button id="mapToggle" className="btn btn-warning" onClick={showMap}>Toon kaart</button>
       </div>
     </div>
   );

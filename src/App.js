@@ -157,7 +157,7 @@ function App() {
               showVisited={showVisited}
               showMap={toggleMapVisibility}
               visitedCount={visitedCount}
-              hallCount={halls.length}
+              hallCount={displayedHalls.length}
               onSearchChange={handleSearchChange}/>
             <Halls
               halls={displayedHalls}
