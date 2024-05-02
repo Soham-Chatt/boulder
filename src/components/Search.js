@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
+function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
@@ -21,6 +21,7 @@ function Search({ showVisited, visitedCount, hallCount, onSearchChange }) {
           onInput={handleSearchInput}
         />
         <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} Bezocht</button>
+        <button id="visitedCounter" className="btn btn-info" onClick={showMap}>Kaart</button>
       </div>
     </div>
   );

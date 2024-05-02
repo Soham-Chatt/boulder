@@ -19,6 +19,7 @@ function App() {
     distance: 'asc',
     rating: 'asc'
   });
+  const [showMap, setShowMap] = useState(false);
 
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
@@ -85,6 +86,10 @@ function App() {
     setDisplayedHalls(sortedHalls);
   }
 
+  const toggleMapVisibility = () => {
+    setShowMap(!showMap);
+  };
+
   // ---------------------- Helper functions ---------------------- //
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     if (!lat1 || !lon1 || !lat2 || !lon2) return null;
@@ -122,10 +127,12 @@ function App() {
                    show={showWarning}/>
 
           <div className={"col-md-8"}>
-             <Map data={hallsData}
-                  coords={myCoordinates}/>
+            {showMap && <Map
+              data={hallsData}
+              coords={myCoordinates}/>}
             <Search
               showVisited={showVisited}
+              showMap={toggleMapVisibility}
               visitedCount={visitedCount}
               hallCount={halls.length}
               onSearchChange={handleSearchChange}/>
