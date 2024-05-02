@@ -96,10 +96,26 @@ function App() {
 
   const showVisited = () => {
     if (sortState.visited) {
-      setDisplayedHalls(halls);
+      if (myCoordinates) {
+        const hallsWithDistance = halls.map(hall => ({
+          ...hall,
+          distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
+        }));
+        sortByDistanceInitial(hallsWithDistance);
+      } else {
+        setDisplayedHalls(halls);
+      }
     } else {
-      const visitedHalls = displayedHalls.filter(hall => hall.visited);
-      setDisplayedHalls(visitedHalls);
+      const visitedHalls = halls.filter(hall => hall.visited);
+      if (myCoordinates) {
+        const hallsWithDistance = visitedHalls.map(hall => ({
+          ...hall,
+          distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
+        }));
+        sortByDistanceInitial(hallsWithDistance);
+      } else {
+        setDisplayedHalls(visitedHalls);
+      }
     }
     setSortState(prevState => ({
       ...prevState,
