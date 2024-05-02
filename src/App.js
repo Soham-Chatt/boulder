@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Halls from './components/Halls';
 import Search from './components/Search';
 import Warning from './components/Warning';
+import Map from './components/Map';
 import hallsData from './halls.json';
 
 function App() {
@@ -121,7 +122,8 @@ function App() {
                    show={showWarning}/>
 
           <div className={"col-md-8"}>
-            {/* Map component goes here as <Map coords={myCoordinates}/> */}
+             <Map data={hallsData}
+                  coords={myCoordinates}/>
             <Search
               showVisited={showVisited}
               visitedCount={visitedCount}
