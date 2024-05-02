@@ -20,6 +20,7 @@ function App() {
     rating: 'asc'
   });
   const [showMap, setShowMap] = useState(false);
+  const [locationSet, setLocationSet] = useState(false);
 
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
@@ -28,6 +29,19 @@ function App() {
     setVisitedCount(hallsData.filter(hall => hall.visited).length);
     navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : console.error("Geolocation is not supported by this browser.");
   }, []);
+
+
+  useEffect(() => {
+    if (!locationSet) {
+      const geoId = navigator.geolocation.watchPosition(showPosition, showError, {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+
+      return () => navigator.geolocation.clearWatch(geoId);
+    }
+  }, [locationSet]);
 
 
   useEffect(() => {
@@ -41,18 +55,18 @@ function App() {
   }, [halls, myCoordinates]);
 
   function showPosition(position) {
-    const newCoordinates = {
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    };
-
-    setMyCoordinates(newCoordinates);
-    setShowWarning(false);
+    if (!locationSet) {
+      const { latitude, longitude } = position.coords;
+      setMyCoordinates({ latitude, longitude });
+      setLocationSet(true);
+      setShowWarning(false);
+    }
   }
 
   function showError(error) {
     console.error("Geolocation error:", error.message);
     setShowWarning(true);
+    setLocationSet(true);
   }
 
   // ---------------------- Sorting functions ---------------------- //
