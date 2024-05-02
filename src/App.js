@@ -144,7 +144,7 @@ function App() {
 
           <div className={"col-md-8"}>
             {showMap && <Map
-              data={hallsData}
+              data={displayedHalls}
               coords={myCoordinates}/>}
             <Search
               showVisited={showVisited}
