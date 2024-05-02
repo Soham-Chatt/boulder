@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange}) {
+function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
@@ -10,7 +10,7 @@ function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange})
   return (
     <div className="col-md">
       <div className="input-group mb-3">
-        <button id="displayedHallsCounter" className="btn btn-info disabled">{hallCount}</button>
+        <button id="displayedHallsCounter" className="btn btn-info disabled d-md-inline-block">{hallCount}</button>
         <input
           type="text"
           id="searchInput"
@@ -20,8 +20,12 @@ function Search({showVisited, showMap, visitedCount, hallCount, onSearchChange})
           aria-describedby="basic-addon1"
           onInput={handleSearchInput}
         />
-        <button id="visitedCounter" className="btn btn-success" onClick={showVisited}>{visitedCount} bezocht</button>
-        <button id="mapToggle" className="btn btn-warning" onClick={showMap}>Toon kaart</button>
+        <button id="visitedCounter" className="btn btn-success d-md-inline-block" onClick={showVisited}>
+          {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
+        </button>
+        <button id="mapToggle" className="btn btn-warning" onClick={showMap}>
+          <span className="d-none d-sm-inline">Toon </span>kaart
+        </button>
       </div>
     </div>
   );
