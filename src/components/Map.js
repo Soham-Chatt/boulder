@@ -24,7 +24,7 @@ const UpdateCenter = ({coords}) => {
 };
 
 function Map({data, coords}) {
-  const calculateCenter = (data) => { 
+  const calculateCenter = (data) => {
     const latitudes = data.map(marker => marker.latitude);
     const longitudes = data.map(marker => marker.longitude);
     const center = {
