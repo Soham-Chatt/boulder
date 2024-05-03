@@ -71,7 +71,7 @@ function Map({data, coords}) {
     <MapContainer
       style={{height: "50vh", width: "100%"}}
       center={coords && coords.latitude && coords.longitude ? [coords.latitude, coords.longitude] : calculateCenter(data)}
-      zoom={11}
+      zoom={coords && coords.latitude && coords.longitude ? 11 : 8}
       minZoom={3}
       scrollWheelZoom={true}
     >
