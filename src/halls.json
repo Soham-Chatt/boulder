@@ -351,15 +351,6 @@
     "rating": "N/A"
   },
   {
-    "name": "Club Monk",
-    "city": "Amsterdam",
-    "province": "Noord-Holland",
-    "latitude": 52.3385521,
-    "longitude": 4.9244722,
-    "visited": false,
-    "rating": "N/A"
-  },
-  {
     "name": "Monk Eindhoven",
     "city": "Eindhoven",
     "province": "Noord-Brabant",
