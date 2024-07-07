@@ -14,8 +14,8 @@
     "province": "Noord-Holland",
     "latitude": 52.3395626,
     "longitude": 4.8418298,
-    "visited": false,
-    "rating": "N/A"
+    "visited": true,
+    "rating": 2
   },
   {
     "name": "Beest Boulders Amsterdam",
