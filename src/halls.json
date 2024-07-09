@@ -23,8 +23,8 @@
     "province": "Noord-Holland",
     "latitude": 52.3812736,
     "longitude": 4.8596409,
-    "visited": false,
-    "rating": "N/A"
+    "visited": true,
+    "rating": 9
   },
   {
     "name": "Beest Boulders Breda",
