@@ -12,6 +12,7 @@ function App() {
   const [showWarning, setShowWarning] = useState(false);
   const [myCoordinates, setMyCoordinates] = useState(null);
   const [visitedCount, setVisitedCount] = useState(0);
+  const [mapKey, setMapKey] = useState(0);
   const [sortState, setSortState] = useState({
     name: 'asc',
     city: 'asc',
@@ -138,7 +139,13 @@ function App() {
 
 
   const toggleMapVisibility = () => {
-    setShowMap(!showMap);
+    setShowMap(prevShow => {
+      const nextShow = !prevShow;
+      if (nextShow) {
+        setMapKey(prevKey => prevKey + 1);
+      }
+      return nextShow;
+    });
   };
 
   // ---------------------- Helper functions ---------------------- //
@@ -189,6 +196,7 @@ function App() {
           />
           <div className={"col-md-8"}>
             {showMap && <Map
+              key={mapKey}
               data={displayedHalls}
               coords={myCoordinates}
             />}
