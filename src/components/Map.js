@@ -1,13 +1,42 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useMemo, useRef} from 'react';
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L from 'leaflet';
-import "leaflet/dist/leaflet.css";
+
+// Create icons outside component to avoid recreation
+const icons = {
+  blueIcon: new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  }),
+  greenIcon: new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  }),
+  redIcon: new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+  })
+};
 
 const ComponentResize = () => {
   const map = useMap();
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 0);
+  useEffect(() => {
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 0);
+  }, [map]);
   return null;
 };
 
@@ -24,6 +53,28 @@ const UpdateCenter = ({coords}) => {
 };
 
 function Map({data, coords}) {
+  const [mounted, setMounted] = useState(false);
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    // Set mounted to true immediately on client side
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (mapRef.current) {
+        const container = mapRef.current.getContainer?.() || mapRef.current._container;
+        mapRef.current.remove();
+        // Defensive cleanup for StrictMode double-invoke in dev.
+        if (container && container._leaflet_id) {
+          container._leaflet_id = null;
+        }
+        mapRef.current = null;
+      }
+    };
+  }, []);
+
   const calculateCenter = (data) => {
     const latitudes = data.map(marker => marker.latitude);
     const longitudes = data.map(marker => marker.longitude);
@@ -34,38 +85,15 @@ function Map({data, coords}) {
     return [center.latitude, center.longitude];
   };
 
-  const [visibleHalls, setVisibleHalls] = useState(data.filter(marker => marker.latitude && marker.longitude));
+  const visibleHalls = useMemo(() =>
+    data.filter(marker => marker.latitude && marker.longitude),
+    [data]
+  );
 
-  useEffect(() => {
-    setVisibleHalls(data.filter(marker => marker.latitude && marker.longitude));
-  }, [data]);
-
-  const icons = {
-    blueIcon: new L.Icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    }),
-    greenIcon: new L.Icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    }),
-    redIcon: new L.Icon({
-      iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-      shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41]
-    })
-  };
+  // Don't render until mounted (client-side only)
+  if (!mounted) {
+    return <div style={{height: "50vh", width: "100%"}} />;
+  }
 
   return (
     <MapContainer
@@ -74,6 +102,9 @@ function Map({data, coords}) {
       zoom={coords && coords.latitude && coords.longitude ? 11 : 8}
       minZoom={3}
       scrollWheelZoom={true}
+      whenCreated={(map) => {
+        mapRef.current = map;
+      }}
     >
       <ComponentResize/>
       <TileLayer
