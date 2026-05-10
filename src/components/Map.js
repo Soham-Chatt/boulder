@@ -180,7 +180,7 @@ function MapInner({ data, coords, isDark }) {
               )}
             </div>
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selected.name}, ${selected.city}, Nederland`)}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selected.name}, ${selected.city}, Nederland`)}&travelmode=transit`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
