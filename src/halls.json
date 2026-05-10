@@ -11,26 +11,15 @@
     "geocodeSource": "manual"
   },
   {
-    "name": "Be Boulder",
+    "name": "Be Boulder (Luchthaven 2026)",
     "city": "Amsterdam",
     "province": "Noord-Holland",
     "latitude": 52.3395626,
     "longitude": 4.8418298,
-    "visited": true,
-    "rating": 2,
-    "closed": true,
-    "geocodeSource": "manual"
-  },
-  {
-    "name": "Boulderhal Luchthaven",
-    "city": "Amsterdam",
-    "province": "Noord-Holland",
-    "latitude": 52.3105,
-    "longitude": 4.7639,
     "visited": false,
     "rating": "N/A",
     "closed": false,
-    "geocodeSource": "city-fallback"
+    "geocodeSource": "manual"
   },
   {
     "name": "Beest Boulders Adam",

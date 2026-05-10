@@ -15,13 +15,6 @@ const HALLS_PATH = path.join(__dirname, '../src/halls.json');
 const POFZAK_URL = 'https://pofzak.nl/overzicht-alle-boulderhallen-nederland/';
 const PLACES_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
 
-// Maps normalized pofzak.nl hall names → canonical names used in halls.json.
-// Add entries here when pofzak.nl uses a different name than what we track
-// (e.g. pre-opening names, rebrands, typos).
-const NAME_OVERRIDES = {
-  'be boulder luchthaven 2026': 'Boulderhal Luchthaven',
-};
-
 function normalize(s) {
   return s.toLowerCase().trim().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ');
 }
@@ -141,19 +134,8 @@ async function main() {
   }
   console.log(`Scraped ${scraped.length} active halls (red rows excluded)`);
 
-  // Build lookup map, applying name overrides for known renames
   const existingByNorm = new Map(existing.map((h) => [normalize(h.name), h]));
-  const scrapedByNorm = new Map();
-  for (const h of scraped) {
-    const norm = normalize(h.name);
-    const overrideName = NAME_OVERRIDES[norm];
-    if (overrideName) {
-      console.log(`  ~ Name override: "${h.name}" → "${overrideName}"`);
-      scrapedByNorm.set(normalize(overrideName), { ...h, name: overrideName });
-    } else {
-      scrapedByNorm.set(norm, h);
-    }
-  }
+  const scrapedByNorm  = new Map(scraped.map((h) => [normalize(h.name), h]));
 
   // Mark halls no longer on the site as closed; reopen ones that came back
   let closedCount = 0;
