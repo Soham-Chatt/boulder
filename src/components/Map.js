@@ -7,18 +7,6 @@ import {
   useMap,
 } from '@vis.gl/react-google-maps';
 
-// Simplified Netherlands boundary [lng, lat], counterclockwise.
-// Reversed below to make a clockwise hole in the world overlay polygon.
-const NL_POLYGON = [
-  [3.36, 51.37], [4.22, 51.37], [4.84, 51.42], [5.50, 51.28],
-  [5.67, 50.75], [5.87, 50.75], [5.98, 51.48], [6.00, 51.76],
-  [6.17, 51.90], [6.75, 52.10], [6.97, 52.47], [7.05, 52.65],
-  [7.09, 53.30], [6.45, 53.46], [5.84, 53.42], [5.10, 53.26],
-  [4.80, 53.05], [4.55, 52.95], [4.60, 52.47], [4.42, 52.28],
-  [4.19, 52.19], [4.05, 52.00], [4.14, 51.75], [3.84, 51.58],
-  [3.37, 51.52], [3.36, 51.37],
-];
-
 const COLORS = {
   visited: '#2f7531',
   closed:  '#666666',
@@ -51,33 +39,12 @@ function UserPin() {
   );
 }
 
-function NetherlandsOverlay() {
+function MapColorScheme({ isDark }) {
   const map = useMap();
-
   useEffect(() => {
     if (!map) return;
-
-    // World bounding box (counterclockwise = exterior) with NL as a clockwise hole.
-    // The gray fill covers everything outside the hole (i.e. outside the Netherlands).
-    const worldRing = [[-180, -85], [180, -85], [180, 85], [-180, 85], [-180, -85]];
-    const nlHole = [...NL_POLYGON].reverse(); // clockwise → hole
-
-    const features = map.data.addGeoJson({
-      type: 'Feature',
-      geometry: { type: 'Polygon', coordinates: [worldRing, nlHole] },
-      properties: {},
-    });
-
-    map.data.setStyle({
-      fillColor: '#000',
-      fillOpacity: 0.28,
-      strokeWeight: 0,
-      clickable: false,
-    });
-
-    return () => features.forEach((f) => map.data.remove(f));
-  }, [map]);
-
+    map.setOptions({ colorScheme: isDark ? 'DARK' : 'LIGHT' });
+  }, [map, isDark]);
   return null;
 }
 
@@ -91,7 +58,7 @@ function PanToUser({ coords }) {
   return null;
 }
 
-function MapInner({ data, coords }) {
+function MapInner({ data, coords, isDark }) {
   const [selected, setSelected] = useState(null);
   const halls = data.filter((h) => h.latitude && h.longitude);
 
@@ -114,8 +81,8 @@ function MapInner({ data, coords }) {
       gestureHandling="cooperative"
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
     >
+      <MapColorScheme isDark={isDark} />
       <PanToUser coords={coords} />
-      <NetherlandsOverlay />
 
       {halls.map((hall, i) => (
         <AdvancedMarker
@@ -146,7 +113,7 @@ function MapInner({ data, coords }) {
             )}
             <br />
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${selected.latitude},${selected.longitude}&destination_place_id=${selected.name}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${selected.latitude},${selected.longitude}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -167,14 +134,14 @@ function MapInner({ data, coords }) {
   );
 }
 
-function Map({ data, coords }) {
+function Map({ data, coords, isDark }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return <div style={{ height: '50vh', width: '100%' }} />;
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ''}>
-      <MapInner data={data} coords={coords} />
+      <MapInner data={data} coords={coords} isDark={isDark} />
     </APIProvider>
   );
 }

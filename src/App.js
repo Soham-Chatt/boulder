@@ -24,6 +24,37 @@ function App() {
   const [showMap, setShowMap] = useState(false);
   const [locationSet, setLocationSet] = useState(false);
   const [showClosed, setShowClosed] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    try {
+      const saved = localStorage.getItem('theme');
+      if (saved !== null) return saved === 'dark';
+    } catch {}
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // ---------------------- Theme ---------------------- //
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
+
+  // Follow system preference when the user hasn't manually overridden
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e) => {
+      try { if (localStorage.getItem('theme') !== null) return; } catch {}
+      setIsDark(e.matches);
+    };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDark(prev => {
+      const next = !prev;
+      try { localStorage.setItem('theme', next ? 'dark' : 'light'); } catch {}
+      return next;
+    });
+  };
 
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
@@ -208,6 +239,7 @@ function App() {
               key={mapKey}
               data={displayedHalls}
               coords={myCoordinates}
+              isDark={isDark}
             />}
             <Search
               showVisited={showVisited}
@@ -218,6 +250,8 @@ function App() {
               showClosed={showClosed}
               toggleShowClosed={toggleShowClosed}
               closedCount={halls.filter(h => h.closed).length}
+              isDark={isDark}
+              toggleTheme={toggleTheme}
             />
             <Halls
               halls={displayedHalls}

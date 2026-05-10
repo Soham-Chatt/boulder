@@ -12,7 +12,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: '#212529', color: 'white' }}>
+      <head>
+        {/* Runs synchronously before React mounts — prevents theme flash */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-bs-theme',d?'dark':'light');}catch(e){}})();` }} />
+      </head>
+      <body>
         <div id="root">{children}</div>
       </body>
     </html>

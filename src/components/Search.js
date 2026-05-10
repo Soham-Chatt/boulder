@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount }) {
+function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount, isDark, toggleTheme }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
@@ -35,6 +35,14 @@ function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange,
         )}
         <button id="mapToggle" className="btn btn-warning" onClick={showMap}>
           <i className="bi bi-geo-alt-fill"></i>
+        </button>
+        <button
+          id="themeToggle"
+          className="btn btn-outline-secondary"
+          onClick={toggleTheme}
+          title={isDark ? 'Schakel naar lichtmodus' : 'Schakel naar donkermodus'}
+        >
+          <i className={isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill'} />
         </button>
       </div>
     </div>
