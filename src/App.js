@@ -226,21 +226,30 @@ function App() {
 
   return (
     <div className="App">
-      <div className={"container py-5"}>
-        <h1 className={"text-center mb-4"}>Boulderhallen</h1>
-        <div className={"row justify-content-center"}>
+      <div className="container">
+        <header className="site-header">
+          <h1 className="site-title">Boulderhallen</h1>
+          <p className="site-subtitle">
+            <strong>{visitedCount}</strong> van {halls.length} hallen bezocht
+          </p>
+        </header>
+        <div className="row justify-content-center">
           <Warning
             message={"Je hebt geen toegang gegeven voor je locatie. Herlaad de pagina met toegang om ook de afstanden te zien."}
             show={showWarning}
             onClose={() => setShowWarning(false)}
           />
-          <div className={"col-md-8"}>
-            {showMap && <Map
-              key={mapKey}
-              data={displayedHalls}
-              coords={myCoordinates}
-              isDark={isDark}
-            />}
+          <div className="col-lg-10 col-xl-9">
+            {showMap && (
+              <div className="map-wrapper">
+                <Map
+                  key={mapKey}
+                  data={displayedHalls}
+                  coords={myCoordinates}
+                  isDark={isDark}
+                />
+              </div>
+            )}
             <Search
               showVisited={showVisited}
               showMap={toggleMapVisibility}
@@ -262,6 +271,7 @@ function App() {
       </div>
     </div>
   );
+
 }
 
 export default App;

@@ -5,6 +5,7 @@ import {
   AdvancedMarker,
   InfoWindow,
   useMap,
+  useMapsLibrary,
 } from '@vis.gl/react-google-maps';
 
 const COLORS = {
@@ -13,6 +14,9 @@ const COLORS = {
   open:    '#1a73e8',
   user:    '#ea4335',
 };
+
+// Module-level cache — survives Map remounts when the toggle is pressed
+const photoCache = {};
 
 function markerColor(hall) {
   if (hall.closed)  return COLORS.closed;
@@ -56,6 +60,65 @@ function PanToUser({ coords }) {
     }
   }, [map, coords]);
   return null;
+}
+
+// Fetches a Google Places photo for the hall, with module-level caching.
+// Requires "Places API (New)" enabled on the Maps JS API key in Google Cloud Console.
+function PlacePhoto({ hall }) {
+  const placesLib = useMapsLibrary('places');
+  const [photoUrl, setPhotoUrl] = useState(() =>
+    hall.name in photoCache ? photoCache[hall.name] : undefined
+  );
+
+  useEffect(() => {
+    if (hall.name in photoCache) {
+      setPhotoUrl(photoCache[hall.name]);
+      return;
+    }
+    if (!placesLib?.Place) return;
+
+    placesLib.Place.searchByText({
+      textQuery: `${hall.name} ${hall.city}`,
+      fields: ['photos'],
+      maxResultCount: 1,
+      region: 'nl',
+    }).then(({ places }) => {
+      const url = places?.[0]?.photos?.[0]?.getURI({ maxWidth: 300 }) ?? null;
+      photoCache[hall.name] = url;
+      setPhotoUrl(url);
+    }).catch(() => {
+      photoCache[hall.name] = null;
+      setPhotoUrl(null);
+    });
+  }, [placesLib, hall.name, hall.city]);
+
+  if (photoUrl === undefined) {
+    return (
+      <div style={{
+        height: 110,
+        background: 'var(--bs-secondary-bg, #e9ecef)',
+        borderRadius: 6,
+        marginTop: 8,
+        animation: 'pulse 1.5s ease-in-out infinite',
+      }} />
+    );
+  }
+  if (!photoUrl) return null;
+
+  return (
+    <img
+      src={photoUrl}
+      alt={hall.name}
+      style={{
+        width: '100%',
+        maxHeight: 150,
+        objectFit: 'cover',
+        borderRadius: 6,
+        marginTop: 8,
+        display: 'block',
+      }}
+    />
+  );
 }
 
 function MapInner({ data, coords, isDark }) {
@@ -104,25 +167,28 @@ function MapInner({ data, coords, isDark }) {
         <InfoWindow
           position={{ lat: selected.latitude, lng: selected.longitude }}
           onCloseClick={() => setSelected(null)}
+          minWidth={220}
         >
-          <div style={{ color: '#222', minWidth: 140 }}>
-            <strong>{selected.name}</strong><br />
-            <span style={{ fontSize: '0.85em', color: '#555' }}>{selected.city}</span>
-            {selected.closed && (
-              <><br /><span style={{ fontSize: '0.8em', color: '#888' }}>Gesloten</span></>
-            )}
-            <br />
+          <div style={{ color: '#222', width: 210 }}>
+            <PlacePhoto hall={selected} />
+            <div style={{ marginTop: photoCache[selected.name] === null ? 0 : 8 }}>
+              <strong style={{ fontSize: '0.95em' }}>{selected.name}</strong><br />
+              <span style={{ fontSize: '0.82em', color: '#555' }}>{selected.city}</span>
+              {selected.closed && (
+                <><br /><span style={{ fontSize: '0.78em', color: '#888' }}>Gesloten</span></>
+              )}
+            </div>
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${selected.latitude},${selected.longitude}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${selected.name}, ${selected.city}, Nederland`)}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-block',
-                marginTop: 6,
+                marginTop: 8,
                 fontSize: '0.82em',
                 color: '#1a73e8',
                 textDecoration: 'none',
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               ↗ Route
