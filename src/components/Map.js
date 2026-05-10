@@ -22,15 +22,20 @@ function markerColor(hall) {
 
 function Pin({ color }) {
   return (
-    <div style={{
-      width: 14,
-      height: 14,
-      borderRadius: '50%',
-      backgroundColor: color,
-      border: '2px solid #fff',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.45)',
-      cursor: 'pointer',
-    }} />
+    <svg width="22" height="32" viewBox="0 0 22 32" style={{ cursor: 'pointer', filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.4))' }}>
+      <path d="M11 0C4.925 0 0 4.925 0 11c0 7.667 11 21 11 21s11-13.333 11-21C22 4.925 17.075 0 11 0z" fill={color} />
+      <circle cx="11" cy="11" r="4.5" fill="white" fillOpacity="0.75" />
+    </svg>
+  );
+}
+
+function UserPin() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.4))' }}>
+      <circle cx="9" cy="9" r="9" fill={COLORS.user} />
+      <circle cx="9" cy="9" r="5" fill="white" />
+      <circle cx="9" cy="9" r="3" fill={COLORS.user} />
+    </svg>
   );
 }
 
@@ -81,7 +86,7 @@ function MapInner({ data, coords }) {
 
       {coords?.latitude && coords?.longitude && (
         <AdvancedMarker position={{ lat: coords.latitude, lng: coords.longitude }}>
-          <Pin color={COLORS.user} />
+          <UserPin />
         </AdvancedMarker>
       )}
 
@@ -90,12 +95,28 @@ function MapInner({ data, coords }) {
           position={{ lat: selected.latitude, lng: selected.longitude }}
           onCloseClick={() => setSelected(null)}
         >
-          <div style={{ color: '#222', minWidth: 120 }}>
+          <div style={{ color: '#222', minWidth: 140 }}>
             <strong>{selected.name}</strong><br />
             <span style={{ fontSize: '0.85em', color: '#555' }}>{selected.city}</span>
             {selected.closed && (
               <><br /><span style={{ fontSize: '0.8em', color: '#888' }}>Gesloten</span></>
             )}
+            <br />
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${selected.latitude},${selected.longitude}&destination_place_id=${selected.name}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-block',
+                marginTop: 6,
+                fontSize: '0.82em',
+                color: '#1a73e8',
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              ↗ Route
+            </a>
           </div>
         </InfoWindow>
       )}
