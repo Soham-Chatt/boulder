@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // Scrapes pofzak.nl for Dutch boulder halls, geocodes new ones via Google Places,
 // and marks halls that have disappeared as closed. Coordinates for existing halls
-// are never changed (stable by design). Planned/cancelled halls are skipped.
+// are never changed (stable by design).
+//
+// Closed/cancelled rows on pofzak.nl have background-color rgb(255,105,102).
+// Those rows are skipped automatically — no name-pattern filtering needed.
 'use strict';
 
 const fs = require('fs');
@@ -12,26 +15,21 @@ const HALLS_PATH = path.join(__dirname, '../src/halls.json');
 const POFZAK_URL = 'https://pofzak.nl/overzicht-alle-boulderhallen-nederland/';
 const PLACES_URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
 
-// Hall names containing these substrings (case-insensitive) are skipped —
-// they indicate planned, cancelled, on-hold, or already-closed halls that
-// pofzak.nl tracks for reference but we don't want in our list.
-const SKIP_KEYWORDS = ['gesloten', 'geannuleerd', 'on hold', 'onbekend'];
-
-// Also skip halls whose name contains a year >= current year in parentheses,
-// indicating a future planned opening: e.g. "Foo (Luchthaven 2026)".
-const SKIP_YEAR_RE = /\(.*?(\d{4}).*?\)/;
-const CURRENT_YEAR = new Date().getFullYear();
+// Maps normalized pofzak.nl hall names → canonical names used in halls.json.
+// Add entries here when pofzak.nl uses a different name than what we track
+// (e.g. pre-opening names, rebrands, typos).
+const NAME_OVERRIDES = {
+  'be boulder luchthaven 2026': 'Boulderhal Luchthaven',
+};
 
 function normalize(s) {
   return s.toLowerCase().trim().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ');
 }
 
-function shouldSkip(hall) {
-  const lower = hall.name.toLowerCase();
-  if (SKIP_KEYWORDS.some((kw) => lower.includes(kw))) return true;
-  const m = hall.name.match(SKIP_YEAR_RE);
-  if (m && parseInt(m[1], 10) >= CURRENT_YEAR) return true;
-  return false;
+function isRedRow($, row) {
+  // pofzak.nl marks closed/cancelled rows by adding class "bg-ff6966" to the <td> cells
+  const firstCell = $(row).find('td').first();
+  return firstCell.hasClass('bg-ff6966');
 }
 
 async function scrapeHalls() {
@@ -59,6 +57,9 @@ async function scrapeHalls() {
     const pi = provIdx >= 0 ? provIdx : 2;
 
     $(table).find('tbody tr').each((_, row) => {
+      // Skip rows with red background — these are closed/cancelled/on-hold halls
+      if (isRedRow($, row)) return;
+
       const cells = $(row).find('td');
       if (cells.length < 3) return;
 
@@ -95,10 +96,6 @@ async function geocode(name, city, apiKey) {
 
 async function main() {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  if (!apiKey) {
-    console.error('GOOGLE_MAPS_API_KEY is not set. Aborting.');
-    process.exit(1);
-  }
 
   // Load existing halls and ensure new fields exist (idempotent migration)
   const existing = JSON.parse(fs.readFileSync(HALLS_PATH, 'utf-8'));
@@ -108,24 +105,26 @@ async function main() {
   });
 
   // Re-geocode halls with imprecise coordinates
-  const needsRegeocoding = existing.filter(
-    (h) => h.geocodeSource === 'city-fallback' || h.geocodeSource === 'failed'
-  );
-  if (needsRegeocoding.length > 0) {
-    console.log(`Re-geocoding ${needsRegeocoding.length} hall(s) with imprecise coordinates...`);
-    for (const hall of needsRegeocoding) {
-      try {
-        const result = await geocode(hall.name, hall.city, apiKey);
-        if (result) {
-          console.log(`  ✓ ${hall.name}: (${result.lat.toFixed(4)}, ${result.lon.toFixed(4)})`);
-          hall.latitude = result.lat;
-          hall.longitude = result.lon;
-          hall.geocodeSource = 'google-places';
-        } else {
-          console.log(`  ~ ${hall.name}: no result, keeping existing coords`);
+  if (apiKey) {
+    const needsRegeocoding = existing.filter(
+      (h) => h.geocodeSource === 'city-fallback' || h.geocodeSource === 'failed'
+    );
+    if (needsRegeocoding.length > 0) {
+      console.log(`Re-geocoding ${needsRegeocoding.length} hall(s) with imprecise coordinates...`);
+      for (const hall of needsRegeocoding) {
+        try {
+          const result = await geocode(hall.name, hall.city, apiKey);
+          if (result) {
+            console.log(`  ✓ ${hall.name}: (${result.lat.toFixed(4)}, ${result.lon.toFixed(4)})`);
+            hall.latitude = result.lat;
+            hall.longitude = result.lon;
+            hall.geocodeSource = 'google-places';
+          } else {
+            console.log(`  ~ ${hall.name}: no result, keeping existing coords`);
+          }
+        } catch (err) {
+          console.warn(`  ! ${hall.name}: ${err.message}`);
         }
-      } catch (err) {
-        console.warn(`  ! ${hall.name}: ${err.message}`);
       }
     }
   }
@@ -138,20 +137,23 @@ async function main() {
   } catch (err) {
     console.error(`Scrape failed: ${err.message}`);
     fs.writeFileSync(HALLS_PATH, JSON.stringify(existing, null, 2) + '\n');
-    console.log(`Wrote migrated fields for ${existing.length} halls (scrape skipped).`);
     process.exit(0);
   }
+  console.log(`Scraped ${scraped.length} active halls (red rows excluded)`);
 
-  // Filter out planned/cancelled halls
-  const skipped = scraped.filter(shouldSkip);
-  const active = scraped.filter((h) => !shouldSkip(h));
-  if (skipped.length) {
-    console.log(`Skipped ${skipped.length} planned/cancelled: ${skipped.map((h) => h.name).join(', ')}`);
-  }
-  console.log(`Scraped ${active.length} active halls`);
-
+  // Build lookup map, applying name overrides for known renames
   const existingByNorm = new Map(existing.map((h) => [normalize(h.name), h]));
-  const scrapedByNorm = new Map(active.map((h) => [normalize(h.name), h]));
+  const scrapedByNorm = new Map();
+  for (const h of scraped) {
+    const norm = normalize(h.name);
+    const overrideName = NAME_OVERRIDES[norm];
+    if (overrideName) {
+      console.log(`  ~ Name override: "${h.name}" → "${overrideName}"`);
+      scrapedByNorm.set(normalize(overrideName), { ...h, name: overrideName });
+    } else {
+      scrapedByNorm.set(norm, h);
+    }
+  }
 
   // Mark halls no longer on the site as closed; reopen ones that came back
   let closedCount = 0;
@@ -168,7 +170,7 @@ async function main() {
       reopenedCount++;
       console.log(`  ~ Reopened: ${hall.name}`);
     }
-    // Intentionally not propagating province from scrape — pofzak.nl data has errors.
+    // Intentionally not propagating province — pofzak.nl data has errors.
   }
 
   // Geocode and add new halls
@@ -177,6 +179,17 @@ async function main() {
     if (existingByNorm.has(norm)) continue;
 
     console.log(`  + New hall: ${s.name} (${s.city}) — geocoding...`);
+
+    if (!apiKey) {
+      console.error('    GOOGLE_MAPS_API_KEY not set — cannot geocode. Set it and re-run.');
+      newHalls.push({
+        name: s.name, city: s.city, province: s.province,
+        latitude: 0, longitude: 0,
+        visited: false, rating: 'N/A', closed: false, geocodeSource: 'failed',
+      });
+      continue;
+    }
+
     let coords = null;
     try {
       coords = await geocode(s.name, s.city, apiKey);
@@ -191,14 +204,9 @@ async function main() {
     }
 
     newHalls.push({
-      name: s.name,
-      city: s.city,
-      province: s.province,
-      latitude: coords?.lat ?? 0,
-      longitude: coords?.lon ?? 0,
-      visited: false,
-      rating: 'N/A',
-      closed: false,
+      name: s.name, city: s.city, province: s.province,
+      latitude: coords?.lat ?? 0, longitude: coords?.lon ?? 0,
+      visited: false, rating: 'N/A', closed: false,
       geocodeSource: coords ? 'google-places' : 'failed',
     });
   }

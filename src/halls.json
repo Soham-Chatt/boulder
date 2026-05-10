@@ -11,14 +11,14 @@
     "geocodeSource": "manual"
   },
   {
-    "name": "Be Boulder",
+    "name": "Boulderhal Luchthaven",
     "city": "Amsterdam",
     "province": "Noord-Holland",
     "latitude": 52.3395626,
     "longitude": 4.8418298,
     "visited": true,
     "rating": 2,
-    "closed": true,
+    "closed": false,
     "geocodeSource": "manual"
   },
   {

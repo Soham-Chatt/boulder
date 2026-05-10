@@ -123,7 +123,7 @@ function PlacePhoto({ hall }) {
 
 function MapInner({ data, coords, isDark }) {
   const [selected, setSelected] = useState(null);
-  const halls = data.filter((h) => h.latitude && h.longitude);
+  const halls = data.filter((h) => h.latitude && h.longitude && !h.closed);
 
   const defaultCenter = (() => {
     if (coords?.latitude) return { lat: coords.latitude, lng: coords.longitude };
