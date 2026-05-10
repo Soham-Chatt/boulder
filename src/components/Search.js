@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, visitedFiltered, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount, isDark, toggleTheme }) {
+function Search({ showVisited, visitedFiltered, showOnlyClosed, closedFiltered, showMap, mapVisible, visitedCount, hallCount, onSearchChange, closedCount }) {
   return (
     <div className="filter-bar">
       <span className="btn btn-info" style={{ flexShrink: 0 }}>{hallCount}</span>
@@ -21,24 +21,21 @@ function Search({ showVisited, visitedFiltered, showMap, visitedCount, hallCount
       </button>
       {closedCount > 0 && (
         <button
-          className={`btn ${showClosed ? 'btn-secondary' : 'btn-outline-secondary'}`}
-          onClick={toggleShowClosed}
-          title={showClosed ? 'Gesloten verbergen' : 'Gesloten tonen'}
+          className={`btn ${closedFiltered ? 'btn-secondary' : 'btn-outline-secondary'}`}
+          onClick={showOnlyClosed}
+          title={closedFiltered ? 'Toon alle hallen' : 'Toon alleen gesloten'}
           style={{ flexShrink: 0 }}
         >
           {closedCount} <span className="d-none d-sm-inline">gesloten</span>
         </button>
       )}
-      <button className="btn btn-warning" onClick={showMap} title="Kaart" style={{ flexShrink: 0 }}>
-        <i className="bi bi-geo-alt-fill" />
-      </button>
       <button
-        className="btn btn-outline-secondary"
-        onClick={toggleTheme}
-        title={isDark ? 'Lichtmodus' : 'Donkermodus'}
+        className={`btn ${mapVisible ? 'btn-secondary' : 'btn-outline-secondary'}`}
+        onClick={showMap}
+        title="Kaart"
         style={{ flexShrink: 0 }}
       >
-        <i className={isDark ? 'bi bi-sun-fill' : 'bi bi-moon-fill'} />
+        <i className="bi bi-map" />
       </button>
     </div>
   );

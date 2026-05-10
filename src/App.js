@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Halls from './components/Halls';
 import Search from './components/Search';
 import Warning from './components/Warning';
@@ -19,11 +20,11 @@ function App() {
     province: 'asc',
     distance: 'asc',
     rating: 'asc',
-    visited: false
+    visited: false,
+    closed: false,
   });
   const [showMap, setShowMap] = useState(false);
   const [locationSet, setLocationSet] = useState(false);
-  const [showClosed, setShowClosed] = useState(false);
   const [isDark, setIsDark] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
@@ -37,7 +38,6 @@ function App() {
     document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-  // Follow system preference when the user hasn't manually overridden
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const handler = (e) => {
@@ -47,6 +47,11 @@ function App() {
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
   }, []);
+
+  // Remount the map when the theme changes so colorScheme applies reliably
+  useEffect(() => {
+    if (showMap) setMapKey(k => k + 1);
+  }, [isDark]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleTheme = () => {
     setIsDark(prev => {
@@ -59,7 +64,7 @@ function App() {
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
     setHalls(hallsData);
-    setDisplayedHalls(hallsData.filter(h => !h.closed));
+    setDisplayedHalls(hallsData);
     setVisitedCount(hallsData.filter(hall => hall.visited).length);
 
     const showPosition = (position) => {
@@ -75,9 +80,10 @@ function App() {
       setLocationSet(true);
     };
 
-    navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition, showError) : console.error("Geolocation is not supported by this browser.");
+    navigator.geolocation
+      ? navigator.geolocation.getCurrentPosition(showPosition, showError)
+      : console.error("Geolocation is not supported by this browser.");
   }, []);
-
 
   useEffect(() => {
     if (!locationSet) {
@@ -104,21 +110,18 @@ function App() {
     }
   }, [locationSet]);
 
-
   useEffect(() => {
     if (!halls.length) return;
-    const base = halls.filter(h => showClosed || !h.closed);
     if (myCoordinates) {
-      const updatedHalls = base.map(hall => ({
+      const updatedHalls = halls.map(hall => ({
         ...hall,
         distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
       }));
       sortByDistanceInitial(updatedHalls);
     } else {
-      setDisplayedHalls(base);
+      setDisplayedHalls(halls);
     }
-  }, [halls, myCoordinates, showClosed]);
-
+  }, [halls, myCoordinates]);
 
   // ---------------------- Sorting functions ---------------------- //
   const sortByDistanceInitial = (hallsWithDistance) => {
@@ -145,19 +148,18 @@ function App() {
   };
 
   const showVisited = () => {
-    const base = halls.filter(h => showClosed || !h.closed);
     if (sortState.visited) {
       if (myCoordinates) {
-        const hallsWithDistance = base.map(hall => ({
+        const hallsWithDistance = halls.map(hall => ({
           ...hall,
           distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
         }));
         sortByDistanceInitial(hallsWithDistance);
       } else {
-        setDisplayedHalls(base);
+        setDisplayedHalls(halls);
       }
     } else {
-      const visitedHalls = base.filter(hall => hall.visited);
+      const visitedHalls = halls.filter(hall => hall.visited);
       if (myCoordinates) {
         const hallsWithDistance = visitedHalls.map(hall => ({
           ...hall,
@@ -170,19 +172,45 @@ function App() {
     }
     setSortState(prevState => ({
       ...prevState,
-      visited: !prevState.visited
+      visited: !prevState.visited,
+      closed: false,
     }));
-  }
+  };
 
-  const toggleShowClosed = () => setShowClosed(prev => !prev);
-
+  const showOnlyClosed = () => {
+    if (sortState.closed) {
+      if (myCoordinates) {
+        const hallsWithDistance = halls.map(hall => ({
+          ...hall,
+          distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
+        }));
+        sortByDistanceInitial(hallsWithDistance);
+      } else {
+        setDisplayedHalls(halls);
+      }
+    } else {
+      const closedHalls = halls.filter(hall => hall.closed);
+      if (myCoordinates) {
+        const hallsWithDistance = closedHalls.map(hall => ({
+          ...hall,
+          distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
+        }));
+        sortByDistanceInitial(hallsWithDistance);
+      } else {
+        setDisplayedHalls(closedHalls);
+      }
+    }
+    setSortState(prevState => ({
+      ...prevState,
+      closed: !prevState.closed,
+      visited: false,
+    }));
+  };
 
   const toggleMapVisibility = () => {
     setShowMap(prevShow => {
       const nextShow = !prevShow;
-      if (nextShow) {
-        setMapKey(prevKey => prevKey + 1);
-      }
+      if (nextShow) setMapKey(prevKey => prevKey + 1);
       return nextShow;
     });
   };
@@ -190,7 +218,6 @@ function App() {
   // ---------------------- Helper functions ---------------------- //
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     if (!lat1 || !lon1 || !lat2 || !lon2) return null;
-
     const toRadians = degree => degree * Math.PI / 180;
     let R = 6371;
     let dLat = toRadians(lat2 - lat1);
@@ -200,19 +227,16 @@ function App() {
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
-  }
+  };
 
   const handleSearchChange = (searchQuery) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
-    const base = halls.filter(h => showClosed || !h.closed);
-
-    const filteredHalls = base.filter(hall =>
+    const filteredHalls = halls.filter(hall =>
       hall.name.toLowerCase().includes(lowerCaseQuery) ||
       hall.city.toLowerCase().includes(lowerCaseQuery) ||
       hall.province.toLowerCase().includes(lowerCaseQuery) ||
       (hall.rating && hall.rating.toString().toLowerCase().includes(lowerCaseQuery))
     );
-
     if (myCoordinates) {
       const hallsWithDistance = filteredHalls.map(hall => ({
         ...hall,
@@ -224,10 +248,19 @@ function App() {
     }
   };
 
+  const closedCount = halls.filter(h => h.closed).length;
+
   return (
     <div className="App">
       <div className="container">
         <header className="site-header">
+          <button
+            className="btn btn-outline-secondary theme-toggle"
+            onClick={toggleTheme}
+            title={isDark ? 'Lichtmodus' : 'Donkermodus'}
+          >
+            <i className={`bi ${isDark ? 'bi-sun-fill' : 'bi-moon-fill'}`} />
+          </button>
           <h1 className="site-title">Boulderhallen</h1>
           <p className="site-subtitle">
             <strong>{visitedCount}</strong> van {halls.length} hallen bezocht
@@ -253,15 +286,14 @@ function App() {
             <Search
               showVisited={showVisited}
               visitedFiltered={sortState.visited}
+              showOnlyClosed={showOnlyClosed}
+              closedFiltered={sortState.closed}
               showMap={toggleMapVisibility}
+              mapVisible={showMap}
               visitedCount={visitedCount}
               hallCount={displayedHalls.length}
               onSearchChange={handleSearchChange}
-              showClosed={showClosed}
-              toggleShowClosed={toggleShowClosed}
-              closedCount={halls.filter(h => h.closed).length}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
+              closedCount={closedCount}
             />
             <Halls
               halls={displayedHalls}
@@ -272,7 +304,6 @@ function App() {
       </div>
     </div>
   );
-
 }
 
 export default App;

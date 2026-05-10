@@ -143,6 +143,7 @@ function MapInner({ data, coords, isDark }) {
       minZoom={3}
       gestureHandling="cooperative"
       mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
+      colorScheme={isDark ? 'DARK' : 'LIGHT'}
     >
       <MapColorScheme isDark={isDark} />
       <PanToUser coords={coords} />
