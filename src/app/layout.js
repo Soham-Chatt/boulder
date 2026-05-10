@@ -1,5 +1,4 @@
 import '../index.css'
-import 'leaflet/dist/leaflet.css'
 
 export const metadata = {
   title: 'Boulderhallen',
