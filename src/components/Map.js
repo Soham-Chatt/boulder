@@ -52,6 +52,16 @@ function MapColorScheme({ isDark }) {
   return null;
 }
 
+function PanToFocused({ focusRequest }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!map || !focusRequest?.hall) return;
+    map.panTo({ lat: focusRequest.hall.latitude, lng: focusRequest.hall.longitude });
+    map.setZoom(14);
+  }, [map, focusRequest]);
+  return null;
+}
+
 function PanToUser({ coords }) {
   const map = useMap();
   useEffect(() => {
@@ -121,8 +131,12 @@ function PlacePhoto({ hall }) {
   );
 }
 
-function MapInner({ data, coords, isDark }) {
+function MapInner({ data, coords, isDark, focusRequest }) {
   const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    if (focusRequest?.hall) setSelected(focusRequest.hall);
+  }, [focusRequest]);
   const halls = data.filter((h) => h.latitude && h.longitude && !h.closed);
 
   const defaultCenter = (() => {
@@ -147,6 +161,7 @@ function MapInner({ data, coords, isDark }) {
     >
       <MapColorScheme isDark={isDark} />
       <PanToUser coords={coords} />
+      <PanToFocused focusRequest={focusRequest} />
 
       {halls.map((hall, i) => (
         <AdvancedMarker
@@ -201,14 +216,14 @@ function MapInner({ data, coords, isDark }) {
   );
 }
 
-function Map({ data, coords, isDark }) {
+function Map({ data, coords, isDark, focusRequest }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   if (!mounted) return <div style={{ height: '50vh', width: '100%' }} />;
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ''}>
-      <MapInner data={data} coords={coords} isDark={isDark} />
+      <MapInner data={data} coords={coords} isDark={isDark} focusRequest={focusRequest} />
     </APIProvider>
   );
 }

@@ -25,6 +25,8 @@ function App() {
   });
   const [showMap, setShowMap] = useState(false);
   const [locationSet, setLocationSet] = useState(false);
+  const [lastSort, setLastSort] = useState({ col: null, dir: null });
+  const [focusRequest, setFocusRequest] = useState(null);
   const [isDark, setIsDark] = useState(() => {
     try {
       const saved = localStorage.getItem('theme');
@@ -141,10 +143,19 @@ function App() {
     });
 
     setDisplayedHalls(sortedHalls);
+    setLastSort({ col: type, dir: sortState[type] });
     setSortState(prevState => ({
       ...prevState,
       [type]: prevState[type] === 'asc' ? 'desc' : 'asc'
     }));
+  };
+
+  const focusHallOnMap = (hall) => {
+    setFocusRequest(prev => ({ hall, seq: (prev?.seq ?? 0) + 1 }));
+    if (!showMap) {
+      setShowMap(true);
+      setMapKey(k => k + 1);
+    }
   };
 
   const showVisited = () => {
@@ -280,6 +291,7 @@ function App() {
                   data={displayedHalls}
                   coords={myCoordinates}
                   isDark={isDark}
+                  focusRequest={focusRequest}
                 />
               </div>
             )}
@@ -298,6 +310,8 @@ function App() {
             <Halls
               halls={displayedHalls}
               sortBy={sortBy}
+              lastSort={lastSort}
+              focusHall={focusHallOnMap}
             />
           </div>
         </div>
