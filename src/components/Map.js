@@ -1,134 +1,117 @@
-import {useEffect, useState, useMemo, useRef} from 'react';
-import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
-import L from 'leaflet';
+import { useState, useEffect } from 'react';
+import {
+  APIProvider,
+  Map as GoogleMap,
+  AdvancedMarker,
+  InfoWindow,
+  useMap,
+} from '@vis.gl/react-google-maps';
 
-// Create icons outside component to avoid recreation
-const icons = {
-  blueIcon: new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  }),
-  greenIcon: new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  }),
-  redIcon: new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-  })
+const COLORS = {
+  visited: '#2f7531',
+  closed:  '#666666',
+  open:    '#1a73e8',
+  user:    '#ea4335',
 };
 
-const ComponentResize = () => {
-  const map = useMap();
-  useEffect(() => {
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 0);
-  }, [map]);
-  return null;
-};
+function markerColor(hall) {
+  if (hall.closed)  return COLORS.closed;
+  if (hall.visited) return COLORS.visited;
+  return COLORS.open;
+}
 
-const UpdateCenter = ({coords}) => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (coords && coords.latitude && coords.longitude) {
-      map.panTo(new L.LatLng(coords.latitude, coords.longitude), map.getZoom(), {animate: true, duration: 0.5});
-    }
-  }, [coords, map]);
-
-  return null;
-};
-
-function Map({data, coords}) {
-  const [mounted, setMounted] = useState(false);
-  const mapRef = useRef(null);
-
-  useEffect(() => {
-    // Set mounted to true immediately on client side
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (mapRef.current) {
-        const container = mapRef.current.getContainer?.() || mapRef.current._container;
-        mapRef.current.remove();
-        // Defensive cleanup for StrictMode double-invoke in dev.
-        if (container && container._leaflet_id) {
-          container._leaflet_id = null;
-        }
-        mapRef.current = null;
-      }
-    };
-  }, []);
-
-  const calculateCenter = (data) => {
-    const latitudes = data.map(marker => marker.latitude);
-    const longitudes = data.map(marker => marker.longitude);
-    const center = {
-      latitude: (Math.min(...latitudes) + Math.max(...latitudes)) / 2,
-      longitude: (Math.min(...longitudes) + Math.max(...longitudes)) / 2
-    };
-    return [center.latitude, center.longitude];
-  };
-
-  const visibleHalls = useMemo(() =>
-    data.filter(marker => marker.latitude && marker.longitude),
-    [data]
+function Pin({ color }) {
+  return (
+    <div style={{
+      width: 14,
+      height: 14,
+      borderRadius: '50%',
+      backgroundColor: color,
+      border: '2px solid #fff',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.45)',
+      cursor: 'pointer',
+    }} />
   );
+}
 
-  // Don't render until mounted (client-side only)
-  if (!mounted) {
-    return <div style={{height: "50vh", width: "100%"}} />;
-  }
+function PanToUser({ coords }) {
+  const map = useMap();
+  useEffect(() => {
+    if (map && coords?.latitude && coords?.longitude) {
+      map.panTo({ lat: coords.latitude, lng: coords.longitude });
+    }
+  }, [map, coords]);
+  return null;
+}
+
+function MapInner({ data, coords }) {
+  const [selected, setSelected] = useState(null);
+  const halls = data.filter((h) => h.latitude && h.longitude);
+
+  const defaultCenter = (() => {
+    if (coords?.latitude) return { lat: coords.latitude, lng: coords.longitude };
+    const lats = halls.map((h) => h.latitude);
+    const lngs = halls.map((h) => h.longitude);
+    return {
+      lat: (Math.min(...lats) + Math.max(...lats)) / 2,
+      lng: (Math.min(...lngs) + Math.max(...lngs)) / 2,
+    };
+  })();
 
   return (
-    <MapContainer
-      style={{height: "50vh", width: "100%"}}
-      center={coords && coords.latitude && coords.longitude ? [coords.latitude, coords.longitude] : calculateCenter(data)}
-      zoom={coords && coords.latitude && coords.longitude ? 11 : 8}
+    <GoogleMap
+      style={{ height: '50vh', width: '100%' }}
+      defaultCenter={defaultCenter}
+      defaultZoom={coords?.latitude ? 11 : 8}
       minZoom={3}
-      scrollWheelZoom={true}
-      whenCreated={(map) => {
-        mapRef.current = map;
-      }}
+      gestureHandling="cooperative"
+      mapId={process.env.NEXT_PUBLIC_GOOGLE_MAPS_MAP_ID}
     >
-      <ComponentResize/>
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <UpdateCenter coords={coords}/>
-      {visibleHalls.map((marker, index) => (
-        <Marker
-          key={index}
-          position={[marker.latitude, marker.longitude]}
-          icon={marker.visited ? icons.greenIcon : icons.blueIcon}>
-          <Popup>{marker.name}<br/>{marker.description}</Popup>
-        </Marker>
+      <PanToUser coords={coords} />
+
+      {halls.map((hall, i) => (
+        <AdvancedMarker
+          key={i}
+          position={{ lat: hall.latitude, lng: hall.longitude }}
+          onClick={() => setSelected(hall)}
+        >
+          <Pin color={markerColor(hall)} />
+        </AdvancedMarker>
       ))}
-      {coords && coords.latitude && coords.longitude && (
-        <Marker
-          key="current"
-          position={[coords.latitude, coords.longitude]}
-          icon={icons.redIcon}>
-          <Popup>Huidige locatie</Popup>
-        </Marker>
+
+      {coords?.latitude && coords?.longitude && (
+        <AdvancedMarker position={{ lat: coords.latitude, lng: coords.longitude }}>
+          <Pin color={COLORS.user} />
+        </AdvancedMarker>
       )}
-    </MapContainer>
+
+      {selected && (
+        <InfoWindow
+          position={{ lat: selected.latitude, lng: selected.longitude }}
+          onCloseClick={() => setSelected(null)}
+        >
+          <div style={{ color: '#222', minWidth: 120 }}>
+            <strong>{selected.name}</strong><br />
+            <span style={{ fontSize: '0.85em', color: '#555' }}>{selected.city}</span>
+            {selected.closed && (
+              <><br /><span style={{ fontSize: '0.8em', color: '#888' }}>Gesloten</span></>
+            )}
+          </div>
+        </InfoWindow>
+      )}
+    </GoogleMap>
+  );
+}
+
+function Map({ data, coords }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  if (!mounted) return <div style={{ height: '50vh', width: '100%' }} />;
+
+  return (
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? ''}>
+      <MapInner data={data} coords={coords} />
+    </APIProvider>
   );
 }
 

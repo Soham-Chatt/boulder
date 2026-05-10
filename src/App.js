@@ -23,11 +23,12 @@ function App() {
   });
   const [showMap, setShowMap] = useState(false);
   const [locationSet, setLocationSet] = useState(false);
+  const [showClosed, setShowClosed] = useState(false);
 
   // ---------------------- Basic set-up ---------------------- //
   useEffect(() => {
     setHalls(hallsData);
-    setDisplayedHalls(hallsData);
+    setDisplayedHalls(hallsData.filter(h => !h.closed));
     setVisitedCount(hallsData.filter(hall => hall.visited).length);
 
     const showPosition = (position) => {
@@ -74,14 +75,18 @@ function App() {
 
 
   useEffect(() => {
+    if (!halls.length) return;
+    const base = halls.filter(h => showClosed || !h.closed);
     if (myCoordinates) {
-      const updatedHalls = halls.map(hall => ({
+      const updatedHalls = base.map(hall => ({
         ...hall,
         distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
       }));
       sortByDistanceInitial(updatedHalls);
+    } else {
+      setDisplayedHalls(base);
     }
-  }, [halls, myCoordinates]);
+  }, [halls, myCoordinates, showClosed]);
 
 
   // ---------------------- Sorting functions ---------------------- //
@@ -109,18 +114,19 @@ function App() {
   };
 
   const showVisited = () => {
+    const base = halls.filter(h => showClosed || !h.closed);
     if (sortState.visited) {
       if (myCoordinates) {
-        const hallsWithDistance = halls.map(hall => ({
+        const hallsWithDistance = base.map(hall => ({
           ...hall,
           distance: calculateDistance(myCoordinates.latitude, myCoordinates.longitude, hall.latitude, hall.longitude)
         }));
         sortByDistanceInitial(hallsWithDistance);
       } else {
-        setDisplayedHalls(halls);
+        setDisplayedHalls(base);
       }
     } else {
-      const visitedHalls = halls.filter(hall => hall.visited);
+      const visitedHalls = base.filter(hall => hall.visited);
       if (myCoordinates) {
         const hallsWithDistance = visitedHalls.map(hall => ({
           ...hall,
@@ -136,6 +142,8 @@ function App() {
       visited: !prevState.visited
     }));
   }
+
+  const toggleShowClosed = () => setShowClosed(prev => !prev);
 
 
   const toggleMapVisibility = () => {
@@ -165,8 +173,9 @@ function App() {
 
   const handleSearchChange = (searchQuery) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
+    const base = halls.filter(h => showClosed || !h.closed);
 
-    const filteredHalls = halls.filter(hall =>
+    const filteredHalls = base.filter(hall =>
       hall.name.toLowerCase().includes(lowerCaseQuery) ||
       hall.city.toLowerCase().includes(lowerCaseQuery) ||
       hall.province.toLowerCase().includes(lowerCaseQuery) ||
@@ -206,6 +215,9 @@ function App() {
               visitedCount={visitedCount}
               hallCount={displayedHalls.length}
               onSearchChange={handleSearchChange}
+              showClosed={showClosed}
+              toggleShowClosed={toggleShowClosed}
+              closedCount={halls.filter(h => h.closed).length}
             />
             <Halls
               halls={displayedHalls}

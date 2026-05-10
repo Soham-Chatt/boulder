@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange }) {
+function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount }) {
   const handleSearchInput = (event) => {
     onSearchChange(event.target.value);
   };
@@ -23,6 +23,16 @@ function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange 
         <button id="visitedCounter" className="btn btn-success d-md-inline-block" onClick={showVisited}>
           {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
         </button>
+        {closedCount > 0 && (
+          <button
+            id="closedToggle"
+            className={`btn ${showClosed ? 'btn-secondary active' : 'btn-outline-secondary'}`}
+            onClick={toggleShowClosed}
+            title={showClosed ? 'Gesloten verbergen' : 'Gesloten tonen'}
+          >
+            {closedCount} <span className="d-none d-sm-inline">gesloten</span>
+          </button>
+        )}
         <button id="mapToggle" className="btn btn-warning" onClick={showMap}>
           <i className="bi bi-geo-alt-fill"></i>
         </button>

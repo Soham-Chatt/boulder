@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Halls( { halls, sortBy } ) {
-  const [visitedColour] = useState('#2f7531');
+const VISITED_BG = '#2f7531';
+const CLOSED_BG = '#555';
 
+function rowBg(hall) {
+  if (hall.closed) return CLOSED_BG;
+  if (hall.visited) return VISITED_BG;
+  return 'transparent';
+}
+
+function Halls({ halls, sortBy }) {
   return (
     <div className="table-responsive">
       <table className="table table-striped border">
@@ -16,15 +23,21 @@ function Halls( { halls, sortBy } ) {
         </tr>
         </thead>
         <tbody>
-        {halls.map((hall, index) => (
-          <tr key={index}>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.name}</td>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.city}</td>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.province}</td>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.distance ? `${hall.distance.toFixed(2)} km` : '-'}</td>
-            <td className={"text-white"} style={{ backgroundColor: hall.visited ? visitedColour : 'transparent' }}>{hall.rating}</td>
-          </tr>
-        ))}
+        {halls.map((hall, index) => {
+          const bg = rowBg(hall);
+          return (
+            <tr key={index}>
+              <td className={"text-white"} style={{ backgroundColor: bg }}>
+                {hall.name}
+                {hall.closed && <span className="badge bg-secondary ms-2" style={{ fontSize: '0.7em' }}>Gesloten</span>}
+              </td>
+              <td className={"text-white"} style={{ backgroundColor: bg }}>{hall.city}</td>
+              <td className={"text-white"} style={{ backgroundColor: bg }}>{hall.province}</td>
+              <td className={"text-white"} style={{ backgroundColor: bg }}>{hall.distance ? `${hall.distance.toFixed(2)} km` : '-'}</td>
+              <td className={"text-white"} style={{ backgroundColor: bg }}>{hall.rating}</td>
+            </tr>
+          );
+        })}
         </tbody>
       </table>
     </div>
