@@ -170,7 +170,7 @@ function MapInner({ data, coords, isDark }) {
           minWidth={220}
         >
           <div style={{ color: '#222', width: 210 }}>
-            <PlacePhoto hall={selected} />
+            <PlacePhoto key={selected.name} hall={selected} />
             <div style={{ marginTop: photoCache[selected.name] === null ? 0 : 8 }}>
               <strong style={{ fontSize: '0.95em' }}>{selected.name}</strong><br />
               <span style={{ fontSize: '0.82em', color: '#555' }}>{selected.city}</span>

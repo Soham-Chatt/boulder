@@ -22,13 +22,13 @@ body {
 
 .site-subtitle {
   font-size: 0.9rem;
-  opacity: 0.55;
+  color: var(--bs-secondary-color);
   margin: 0;
 }
 
 .site-subtitle strong {
   color: #2f7531;
-  opacity: 1;
+  font-weight: 700;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────── */
@@ -63,6 +63,17 @@ body {
 .btn-success {
   background-color: #2a6f2d !important;
   color: #fff !important;
+}
+
+.btn-outline-success {
+  background: transparent !important;
+  border: 1.5px solid #2a6f2d !important;
+  color: #2a6f2d !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-success {
+  border-color: #4ade80 !important;
+  color: #4ade80 !important;
 }
 
 .btn-warning {

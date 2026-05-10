@@ -1,7 +1,7 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount, isDark, toggleTheme }) {
+function Search({ showVisited, visitedFiltered, showMap, visitedCount, hallCount, onSearchChange, showClosed, toggleShowClosed, closedCount, isDark, toggleTheme }) {
   return (
     <div className="filter-bar">
       <span className="btn btn-info" style={{ flexShrink: 0 }}>{hallCount}</span>
@@ -12,12 +12,16 @@ function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange,
         aria-label="search"
         onInput={(e) => onSearchChange(e.target.value)}
       />
-      <button className="btn btn-success" onClick={showVisited} style={{ flexShrink: 0 }}>
+      <button
+        className={`btn ${visitedFiltered ? 'btn-success' : 'btn-outline-success'}`}
+        onClick={showVisited}
+        style={{ flexShrink: 0 }}
+      >
         {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
       </button>
       {closedCount > 0 && (
         <button
-          className={`btn btn-outline-secondary${showClosed ? ' active' : ''}`}
+          className={`btn ${showClosed ? 'btn-secondary' : 'btn-outline-secondary'}`}
           onClick={toggleShowClosed}
           title={showClosed ? 'Gesloten verbergen' : 'Gesloten tonen'}
           style={{ flexShrink: 0 }}

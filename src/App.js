@@ -252,6 +252,7 @@ function App() {
             )}
             <Search
               showVisited={showVisited}
+              visitedFiltered={sortState.visited}
               showMap={toggleMapVisibility}
               visitedCount={visitedCount}
               hallCount={displayedHalls.length}
