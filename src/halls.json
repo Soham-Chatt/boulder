@@ -6,25 +6,31 @@
     "latitude": 53.2161148,
     "longitude": 6.536471,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Be Boulder",
+    "name": "Be Boulder (Luchthaven 2026)",
     "city": "Amsterdam",
     "province": "Noord-Holland",
     "latitude": 52.3395626,
     "longitude": 4.8418298,
-    "visited": true,
-    "rating": 2
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Beest Boulders Amsterdam",
+    "name": "Beest Boulders Adam",
     "city": "Amsterdam",
     "province": "Noord-Holland",
     "latitude": 52.3812736,
     "longitude": 4.8596409,
     "visited": true,
-    "rating": 9
+    "rating": 9,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Beest Boulders Breda",
@@ -33,7 +39,9 @@
     "latitude": 51.5949122,
     "longitude": 4.7551966,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Beest Boulders Den Haag HS",
@@ -42,7 +50,9 @@
     "latitude": 52.069385,
     "longitude": 4.3209697,
     "visited": true,
-    "rating": 6
+    "rating": 6,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Beest Boulders Den Haag Centrum",
@@ -51,16 +61,20 @@
     "latitude": 52.0763455,
     "longitude": 4.3084002,
     "visited": true,
-    "rating": 10
+    "rating": 10,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Beest Boulders Rotterdam",
+    "name": "Beest Boulders Rdam",
     "city": "Rotterdam",
     "province": "Zuid-Holland",
     "latitude": 51.9273953,
     "longitude": 4.4737071,
     "visited": true,
-    "rating": 6
+    "rating": 6,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Beta Boulders",
@@ -69,7 +83,9 @@
     "latitude": 52.3442045,
     "longitude": 4.8534011,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Bossche Boulders",
@@ -78,34 +94,42 @@
     "latitude": 51.6959284,
     "longitude": 5.276932,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Boulder Neoliet Rotterdam",
+    "name": "Boulder Rotterdam",
     "city": "Rotterdam",
     "province": "Zuid-Holland",
     "latitude": 51.9083491,
     "longitude": 4.4312261,
     "visited": true,
-    "rating": 8
+    "rating": 8,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Boulder Neoliet Tilburg",
+    "name": "Boulder Tilburg",
     "city": "Tilburg",
     "province": "Noord-Brabant",
     "latitude": 51.5657197,
     "longitude": 5.1113669,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Boulder Neoliet Veldhoven",
+    "name": "Boulder Veldhoven",
     "city": "Veldhoven",
     "province": "Noord-Brabant",
     "latitude": 51.4251821,
     "longitude": 5.4149687,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Bouldercentrum Delfts Bleau",
@@ -114,7 +138,9 @@
     "latitude": 51.9948255,
     "longitude": 4.3642833,
     "visited": true,
-    "rating": 8
+    "rating": 8,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Bouldergym BAZ",
@@ -123,7 +149,9 @@
     "latitude": 52.4606986,
     "longitude": 4.8125532,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Block013",
@@ -132,7 +160,9 @@
     "latitude": 51.5771628,
     "longitude": 5.0910545,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Bruut",
@@ -141,7 +171,9 @@
     "latitude": 51.5981948,
     "longitude": 4.755504,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal de Campus",
@@ -150,7 +182,9 @@
     "latitude": 52.0495514,
     "longitude": 4.2546388,
     "visited": true,
-    "rating": 8
+    "rating": 8,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal de Fabriek Haarlem",
@@ -159,7 +193,9 @@
     "latitude": 52.3919867,
     "longitude": 4.6470941,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal de Fabriek Hoofddorp",
@@ -168,7 +204,9 @@
     "latitude": 52.3135598,
     "longitude": 4.6908056,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Energiehaven",
@@ -177,7 +215,9 @@
     "latitude": 52.1001073,
     "longitude": 5.0700532,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Krachtstof",
@@ -186,7 +226,9 @@
     "latitude": 52.1585093,
     "longitude": 4.5115171,
     "visited": true,
-    "rating": 6
+    "rating": 6,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Kunststof",
@@ -195,7 +237,9 @@
     "latitude": 52.1450956,
     "longitude": 4.4809743,
     "visited": true,
-    "rating": "4"
+    "rating": "4",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Roest",
@@ -204,7 +248,9 @@
     "latitude": 52.4986099,
     "longitude": 6.1188089,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Sendmast",
@@ -213,7 +259,9 @@
     "latitude": 52.6172431,
     "longitude": 4.7669382,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Sterk",
@@ -222,7 +270,9 @@
     "latitude": 52.0763815,
     "longitude": 5.1076692,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Sterk Spoor",
@@ -231,7 +281,9 @@
     "latitude": 52.1050626,
     "longitude": 5.0820494,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Walhalla",
@@ -240,7 +292,9 @@
     "latitude": 52.0616992,
     "longitude": 4.3136623,
     "visited": true,
-    "rating": 5
+    "rating": 5,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderhal Zuidhaven",
@@ -249,7 +303,9 @@
     "latitude": 52.0645761,
     "longitude": 5.1039478,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderkerk Venlo",
@@ -258,7 +314,9 @@
     "latitude": 51.3567031,
     "longitude": 6.183003,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Boulderstation",
@@ -267,7 +325,9 @@
     "latitude": 52.2233143,
     "longitude": 6.8729603,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Cube Bouldergym",
@@ -276,7 +336,9 @@
     "latitude": 52.2230274,
     "longitude": 6.9033653,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Grip Boulderhal",
@@ -285,7 +347,9 @@
     "latitude": 51.8127732,
     "longitude": 5.8369825,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Gropo Bouldergym",
@@ -294,16 +358,20 @@
     "latitude": 53.2308935,
     "longitude": 6.5888408,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
-    "name": "Beest Boulders Het Lab",
+    "name": "Het Lab",
     "city": "Amsterdam",
     "province": "Noord-Holland",
     "latitude": 52.3923803,
     "longitude": 4.8508788,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Impact Boulderhal",
@@ -312,7 +380,9 @@
     "latitude": 52.3759045,
     "longitude": 5.2378009,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Kei Boulderhal",
@@ -321,7 +391,9 @@
     "latitude": 52.156822,
     "longitude": 5.3644533,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Kei Boulderhal De Hoef",
@@ -330,7 +402,9 @@
     "latitude": 52.1801889,
     "longitude": 5.414364,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Monk Amsterdam",
@@ -339,7 +413,9 @@
     "latitude": 52.383716,
     "longitude": 4.9285531,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Monk Eindhoven",
@@ -348,7 +424,9 @@
     "latitude": 51.4434507,
     "longitude": 5.4582798,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Monk Hilversum",
@@ -357,7 +435,9 @@
     "latitude": 52.2197772,
     "longitude": 5.1488591,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Monk Rotterdam",
@@ -366,7 +446,9 @@
     "latitude": 51.9418064,
     "longitude": 4.4728726,
     "visited": true,
-    "rating": 7
+    "rating": 7,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Radium Boulders",
@@ -375,7 +457,9 @@
     "latitude": 50.8567614,
     "longitude": 5.6823573,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Revolt Boulderhal",
@@ -384,7 +468,9 @@
     "latitude": 52.0255472,
     "longitude": 4.3639055,
     "visited": true,
-    "rating": 8
+    "rating": 8,
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "RijnBoulder",
@@ -393,7 +479,9 @@
     "latitude": 51.9627664,
     "longitude": 5.9008776,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "The Climbing Corner",
@@ -402,7 +490,9 @@
     "latitude": 50.8955532,
     "longitude": 5.9562035,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
   },
   {
     "name": "Wildflower Climbing Gym",
@@ -411,6 +501,107 @@
     "latitude": 52.1593692,
     "longitude": 4.5136562,
     "visited": false,
-    "rating": "N/A"
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "manual"
+  },
+  {
+    "name": "Boulder Apeldoorn",
+    "city": "Apeldoorn",
+    "province": "Gelderland",
+    "latitude": 52.1927875,
+    "longitude": 5.9632354,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Boulder Amsterdam",
+    "city": "Amsterdam",
+    "province": "Noord-Holland",
+    "latitude": 52.3764475,
+    "longitude": 4.8713885,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Boulderwijk",
+    "city": "Beverwijk",
+    "province": "Noord-Holland",
+    "latitude": 52.4803827,
+    "longitude": 4.6653058,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Beest Boulders Delft",
+    "city": "Delft",
+    "province": "Zuid-Holland",
+    "latitude": 52.0114017,
+    "longitude": 4.35839,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "city-fallback"
+  },
+  {
+    "name": "Boulderhal Vrijhaven",
+    "city": "Deventer",
+    "province": "Overijssel",
+    "latitude": 52.2475792,
+    "longitude": 6.1726075,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Mono Boulder",
+    "city": "Ede",
+    "province": "Gelderland",
+    "latitude": 52.020782,
+    "longitude": 5.6673596,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Silk Bouldergym",
+    "city": "Ede",
+    "province": "Gelderland",
+    "latitude": 52.0716826,
+    "longitude": 5.7455106,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "city-fallback"
+  },
+  {
+    "name": "Boulder Eindhoven",
+    "city": "Eindhoven",
+    "province": "Noord-Brabant",
+    "latitude": 51.4752471,
+    "longitude": 5.455758,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
+  },
+  {
+    "name": "Nirvana",
+    "city": "Scheveningen",
+    "province": "Zuid-Holland",
+    "latitude": 52.1100671,
+    "longitude": 4.2836164,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "nominatim"
   }
 ]

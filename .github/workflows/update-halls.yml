@@ -1,0 +1,58 @@
+name: Update boulder halls
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday 09:00 UTC
+  workflow_dispatch:       # Manual trigger from GitHub UI
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-halls:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update halls from pofzak.nl
+        run: npm run update-halls
+        env:
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+
+      - name: Open PR if halls.json changed
+        run: |
+          if git diff --quiet src/halls.json; then
+            echo "No changes to halls.json — nothing to do."
+            exit 0
+          fi
+
+          BRANCH="auto/update-halls-$(date +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/halls.json
+          git commit -m "chore: auto-update boulder halls from pofzak.nl"
+          git push -u origin "$BRANCH"
+
+          gh pr create \
+            --title "chore: auto-update boulder halls" \
+            --body "Automated weekly sync from [pofzak.nl](https://pofzak.nl/overzicht-alle-boulderhallen-nederland/). Review the diff before merging — new halls or closed/reopened halls may need attention." \
+            --base main
+
+          # Enable auto-merge: PR merges automatically once all required checks pass.
+          # For this to wait for the Vercel deploy check, enable branch protection on
+          # main (Settings → Branches → Require status checks before merging) and add
+          # the Vercel check name (e.g. "Vercel – Preview" or "vercel/preview") there.
+          gh pr merge --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,32 +1,42 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
-function Search({ showVisited, showMap, visitedCount, hallCount, onSearchChange }) {
-  const handleSearchInput = (event) => {
-    onSearchChange(event.target.value);
-  };
-  const placeholderText = `Zoek door ${hallCount} hallen...`;
-
+function Search({ showVisited, visitedFiltered, showOnlyClosed, closedFiltered, showMap, mapVisible, visitedCount, hallCount, onSearchChange, closedCount }) {
   return (
-    <div className="col-md">
-      <div className="input-group mb-3">
-        <button id="displayedHallsCounter" className="btn btn-info disabled d-md-inline-block">{hallCount}</button>
-        <input
-          type="text"
-          id="searchInput"
-          className="form-control"
-          placeholder={placeholderText}
-          aria-label="search"
-          aria-describedby="basic-addon1"
-          onInput={handleSearchInput}
-        />
-        <button id="visitedCounter" className="btn btn-success d-md-inline-block" onClick={showVisited}>
-          {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
+    <div className="filter-bar">
+      <span className="btn btn-info" style={{ flexShrink: 0 }}>{hallCount}</span>
+      <input
+        type="text"
+        className="form-control"
+        placeholder="Zoeken..."
+        aria-label="search"
+        onInput={(e) => onSearchChange(e.target.value)}
+      />
+      <button
+        className={`btn ${visitedFiltered ? 'btn-success' : 'btn-outline-success'}`}
+        onClick={showVisited}
+        style={{ flexShrink: 0 }}
+      >
+        {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
+      </button>
+      {closedCount > 0 && (
+        <button
+          className={`btn ${closedFiltered ? 'btn-secondary' : 'btn-outline-secondary'}`}
+          onClick={showOnlyClosed}
+          title={closedFiltered ? 'Toon alle hallen' : 'Toon alleen gesloten'}
+          style={{ flexShrink: 0 }}
+        >
+          {closedCount} <span className="d-none d-sm-inline">gesloten</span>
         </button>
-        <button id="mapToggle" className="btn btn-warning" onClick={showMap}>
-          <i className="bi bi-geo-alt-fill"></i>
-        </button>
-      </div>
+      )}
+      <button
+        className={`btn ${mapVisible ? 'btn-secondary' : 'btn-outline-secondary'}`}
+        onClick={showMap}
+        title="Kaart"
+        style={{ flexShrink: 0 }}
+      >
+        <i className="bi bi-map" />
+      </button>
     </div>
   );
 }
