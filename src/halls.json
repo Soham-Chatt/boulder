@@ -542,12 +542,12 @@
     "name": "Beest Boulders Delft",
     "city": "Delft",
     "province": "Zuid-Holland",
-    "latitude": 52.0114017,
-    "longitude": 4.35839,
+    "latitude": 51.9997431,
+    "longitude": 4.35605,
     "visited": false,
     "rating": "N/A",
     "closed": false,
-    "geocodeSource": "city-fallback"
+    "geocodeSource": "google-places"
   },
   {
     "name": "Boulderhal Vrijhaven",
@@ -575,12 +575,12 @@
     "name": "Silk Bouldergym",
     "city": "Ede",
     "province": "Gelderland",
-    "latitude": 52.0716826,
-    "longitude": 5.7455106,
+    "latitude": 52.020863,
+    "longitude": 5.6674107,
     "visited": false,
     "rating": "N/A",
     "closed": false,
-    "geocodeSource": "city-fallback"
+    "geocodeSource": "google-places"
   },
   {
     "name": "Boulder Eindhoven",
