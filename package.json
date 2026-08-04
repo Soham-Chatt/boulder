@@ -9,7 +9,7 @@
     "@vis.gl/react-google-maps": "^1.8.3",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.3",
-    "next": "^16.2.11",
+    "next": "^16.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
