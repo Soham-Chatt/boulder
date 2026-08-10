@@ -603,5 +603,16 @@
     "rating": "N/A",
     "closed": false,
     "geocodeSource": "nominatim"
+  },
+  {
+    "name": "National Climbing Center",
+    "city": "Nieuwegein",
+    "province": "Utrecht",
+    "latitude": 0,
+    "longitude": 0,
+    "visited": false,
+    "rating": "N/A",
+    "closed": false,
+    "geocodeSource": "failed"
   }
 ]
