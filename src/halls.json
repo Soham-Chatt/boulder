@@ -545,7 +545,7 @@
     "latitude": 51.9997431,
     "longitude": 4.35605,
     "visited": false,
-    "rating": "N/A",
+    "rating": 7.5,
     "closed": false,
     "geocodeSource": "google-places"
   },
@@ -608,11 +608,11 @@
     "name": "National Climbing Center",
     "city": "Nieuwegein",
     "province": "Utrecht",
-    "latitude": 0,
-    "longitude": 0,
+    "latitude": 52.0480562,
+    "longitude": 5.0921392,
     "visited": false,
     "rating": "N/A",
     "closed": false,
-    "geocodeSource": "failed"
+    "geocodeSource": "nominatim"
   }
 ]
