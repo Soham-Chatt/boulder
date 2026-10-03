@@ -544,7 +544,7 @@
     "province": "Zuid-Holland",
     "latitude": 51.9997431,
     "longitude": 4.35605,
-    "visited": false,
+    "visited": true,
     "rating": 7.5,
     "closed": false,
     "geocodeSource": "google-places"
