@@ -1,78 +1,97 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useT } from '../i18n';
 
-const VISITED_BG = '#2f7531';
-const CLOSED_BG  = '#4b5563';
-
-function rowBg(hall) {
-  if (hall.closed)  return CLOSED_BG;
-  if (hall.visited) return VISITED_BG;
-  return 'transparent';
+function ratingTone(rating) {
+  if (rating >= 8) return 'high';
+  if (rating >= 6) return 'mid';
+  return 'low';
 }
 
-function SortBtn({ label, col, sortBy, lastSort }) {
-  const active = lastSort?.col === col;
-  const arrow  = active ? (lastSort.dir === 'asc' ? ' ↑' : ' ↓') : '';
+function SortHeader({ label, col, sortBy, sort, className = '' }) {
+  const active = sort.col === col;
+  const icon = active ? (sort.dir === 'asc' ? 'bi-arrow-up' : 'bi-arrow-down') : 'bi-arrow-down-up';
   return (
-    <button className="btn" onClick={() => sortBy(col)}>
-      {label}{arrow && <span style={{ opacity: 0.7 }}>{arrow}</span>}
-    </button>
+    <th className={className} aria-sort={active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : 'none'}>
+      <button className={`sort-btn ${active ? 'active' : ''}`} onClick={() => sortBy(col)}>
+        {label}
+        <i className={`bi ${icon} sort-icon`} aria-hidden="true" />
+      </button>
+    </th>
   );
 }
 
-function Halls({ halls, sortBy, lastSort, focusHall }) {
+function Rating({ value }) {
+  if (value == null) return <span className="muted">—</span>;
+  return <span className={`rating rating-${ratingTone(value)}`}>{value}</span>;
+}
+
+function Halls({ halls, sortBy, sort, hasDistance, focusHall }) {
+  const t = useT();
+
+  if (!halls.length) {
+    return (
+      <div className="empty-state">
+        <i className="bi bi-search" aria-hidden="true" />
+        <p className="empty-title">{t.noResults}</p>
+        <p className="empty-hint">{t.noResultsHint}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="table-responsive">
-      <table className="table table-striped table-hover">
+    <div className="list-card">
+      <table className="halls-table">
         <thead>
           <tr>
-            <th><SortBtn label="Naam"      col="name"     sortBy={sortBy} lastSort={lastSort} /></th>
-            <th><SortBtn label="Stad"      col="city"     sortBy={sortBy} lastSort={lastSort} /></th>
-            <th><SortBtn label="Provincie" col="province" sortBy={sortBy} lastSort={lastSort} /></th>
-            <th><SortBtn label="Afstand"   col="distance" sortBy={sortBy} lastSort={lastSort} /></th>
-            <th><SortBtn label="Rating"    col="rating"   sortBy={sortBy} lastSort={lastSort} /></th>
-            <th style={{ width: 40 }} />
+            <SortHeader label={t.colName}     col="name"     sortBy={sortBy} sort={sort} className="col-name" />
+            <SortHeader label={t.colCity}     col="city"     sortBy={sortBy} sort={sort} className="col-city" />
+            <SortHeader label={t.colProvince} col="province" sortBy={sortBy} sort={sort} className="col-province" />
+            <SortHeader label={t.colRating}   col="rating"   sortBy={sortBy} sort={sort} className="col-rating" />
+            {hasDistance && (
+              <SortHeader label={t.colDistance} col="distance" sortBy={sortBy} sort={sort} className="col-distance" />
+            )}
+            <th className="col-action" aria-hidden="true" />
           </tr>
         </thead>
         <tbody>
-          {halls.map((hall, index) => {
-            const bg = rowBg(hall);
-            const hasColoredBg = bg !== 'transparent';
-            const cellStyle = { backgroundColor: bg, color: hasColoredBg ? '#fff' : undefined };
-            return (
-              <tr key={index}>
-                <td style={cellStyle}>
-                  {hall.name}
-                  {hall.closed && (
-                    <span className="badge bg-secondary ms-2" style={{ fontSize: '0.68em', verticalAlign: 'middle' }}>
-                      Gesloten
-                    </span>
+          {halls.map((hall) => (
+            <tr
+              key={`${hall.name}-${hall.city}`}
+              className={hall.closed ? 'is-closed' : hall.visited ? 'is-visited' : ''}
+            >
+              <td className="col-name">
+                <div className="hall-name">
+                  {hall.visited && !hall.closed && (
+                    <i className="bi bi-check-circle-fill visited-icon" title={t.visited} aria-label={t.visited} />
                   )}
+                  <span>{hall.name}</span>
+                  {hall.closed && <span className="tag">{t.closed}</span>}
+                </div>
+                <div className="hall-sub">{hall.city} · {hall.province}</div>
+              </td>
+              <td className="col-city">{hall.city}</td>
+              <td className="col-province muted">{hall.province}</td>
+              <td className="col-rating"><Rating value={hall.rating} /></td>
+              {hasDistance && (
+                <td className="col-distance muted">
+                  {hall.distance != null ? `${hall.distance.toFixed(hall.distance < 10 ? 1 : 0)} km` : '—'}
                 </td>
-                <td style={cellStyle}>{hall.city}</td>
-                <td style={cellStyle}>{hall.province}</td>
-                <td style={cellStyle}>{hall.distance ? `${hall.distance.toFixed(1)} km` : '—'}</td>
-                <td style={cellStyle}>{hall.rating}</td>
-                <td style={{ ...cellStyle, textAlign: 'center', padding: '0.4rem' }}>
-                  {!hall.closed && (
-                    <button
-                      className="btn p-1"
-                      style={{
-                        color: hasColoredBg ? 'rgba(255,255,255,0.85)' : 'var(--bs-secondary-color)',
-                        background: 'transparent',
-                        border: 'none',
-                        lineHeight: 1,
-                      }}
-                      onClick={() => focusHall(hall)}
-                      title="Toon op kaart"
-                    >
-                      <i className="bi bi-geo-alt" style={{ fontSize: '0.95rem' }} />
-                    </button>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
+              )}
+              <td className="col-action">
+                {!hall.closed && (
+                  <button
+                    className="row-icon-btn"
+                    onClick={() => focusHall(hall)}
+                    title={t.showOnMap}
+                    aria-label={`${t.showOnMap}: ${hall.name}`}
+                  >
+                    <i className="bi bi-geo-alt" />
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

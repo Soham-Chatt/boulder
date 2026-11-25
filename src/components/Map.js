@@ -7,6 +7,7 @@ import {
   useMap,
   useMapsLibrary,
 } from '@vis.gl/react-google-maps';
+import { useT } from '../i18n';
 
 const COLORS = {
   visited: '#2f7531',
@@ -132,6 +133,7 @@ function PlacePhoto({ hall }) {
 }
 
 function MapInner({ data, coords, isDark, focusRequest }) {
+  const t = useT();
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
@@ -191,7 +193,7 @@ function MapInner({ data, coords, isDark, focusRequest }) {
               <strong style={{ fontSize: '0.95em' }}>{selected.name}</strong><br />
               <span style={{ fontSize: '0.82em', color: '#555' }}>{selected.city}</span>
               {selected.closed && (
-                <><br /><span style={{ fontSize: '0.78em', color: '#888' }}>Gesloten</span></>
+                <><br /><span style={{ fontSize: '0.78em', color: '#888' }}>{t.closed}</span></>
               )}
             </div>
             <a
@@ -207,7 +209,7 @@ function MapInner({ data, coords, isDark, focusRequest }) {
                 fontWeight: 600,
               }}
             >
-              ↗ Route
+              ↗ {t.route}
             </a>
           </div>
         </InfoWindow>

@@ -1,42 +1,61 @@
 import React from 'react';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useT } from '../i18n';
 
-function Search({ showVisited, visitedFiltered, showOnlyClosed, closedFiltered, showMap, mapVisible, visitedCount, hallCount, onSearchChange, closedCount }) {
+function Search({ query, onQueryChange, filter, onFilterChange, visitedCount, closedCount, hallCount, onToggleMap, mapVisible }) {
+  const t = useT();
+  const filters = [
+    { key: 'all', label: t.filterAll },
+    { key: 'visited', label: t.filterVisited, count: visitedCount },
+    ...(closedCount > 0 ? [{ key: 'closed', label: t.filterClosed, count: closedCount }] : []),
+  ];
+
   return (
-    <div className="filter-bar">
-      <span className="btn btn-info" style={{ flexShrink: 0 }}>{hallCount}</span>
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Zoeken..."
-        aria-label="search"
-        onInput={(e) => onSearchChange(e.target.value)}
-      />
-      <button
-        className={`btn ${visitedFiltered ? 'btn-success' : 'btn-outline-success'}`}
-        onClick={showVisited}
-        style={{ flexShrink: 0 }}
-      >
-        {visitedCount} <span className="d-none d-sm-inline">bezocht</span>
-      </button>
-      {closedCount > 0 && (
-        <button
-          className={`btn ${closedFiltered ? 'btn-secondary' : 'btn-outline-secondary'}`}
-          onClick={showOnlyClosed}
-          title={closedFiltered ? 'Toon alle hallen' : 'Toon alleen gesloten'}
-          style={{ flexShrink: 0 }}
-        >
-          {closedCount} <span className="d-none d-sm-inline">gesloten</span>
-        </button>
-      )}
-      <button
-        className={`btn ${mapVisible ? 'btn-secondary' : 'btn-outline-secondary'}`}
-        onClick={showMap}
-        title="Kaart"
-        style={{ flexShrink: 0 }}
-      >
-        <i className="bi bi-map" />
-      </button>
+    <div className="toolbar">
+      <div className="search-field">
+        <i className="bi bi-search search-icon" aria-hidden="true" />
+        <input
+          type="search"
+          value={query}
+          placeholder={t.searchPlaceholder}
+          aria-label={t.searchPlaceholder}
+          onChange={(e) => onQueryChange(e.target.value)}
+        />
+        {query && (
+          <button className="search-clear" onClick={() => onQueryChange('')} aria-label={t.clearSearch}>
+            <i className="bi bi-x-circle-fill" />
+          </button>
+        )}
+      </div>
+
+      <div className="toolbar-row">
+        <div className="segmented" role="tablist">
+          {filters.map(f => (
+            <button
+              key={f.key}
+              role="tab"
+              aria-selected={filter === f.key}
+              className={filter === f.key ? 'active' : ''}
+              onClick={() => onFilterChange(f.key)}
+            >
+              {f.label}
+              {f.count != null && <span className="seg-count">{f.count}</span>}
+            </button>
+          ))}
+        </div>
+
+        <div className="toolbar-right">
+          <span className="result-count">{t.results(hallCount)}</span>
+          <button
+            className={`pill-btn ${mapVisible ? 'active' : ''}`}
+            onClick={onToggleMap}
+            aria-pressed={mapVisible}
+          >
+            <i className={`bi ${mapVisible ? 'bi-map-fill' : 'bi-map'}`} />
+            <span>{mapVisible ? t.hideMap : t.map}</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
